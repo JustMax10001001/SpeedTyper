@@ -43,6 +43,7 @@ public class Word extends Text {
     public boolean isInput() {
         return isInput.get();
     }
+
     public void setIsInput(boolean isInput) {
         this.isInput.set(isInput);
     }
