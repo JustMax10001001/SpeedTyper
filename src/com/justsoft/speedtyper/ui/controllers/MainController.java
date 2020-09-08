@@ -1,6 +1,9 @@
 package com.justsoft.speedtyper.ui.controllers;
 
+import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.resources.Resources;
+import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
@@ -11,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
 import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
@@ -25,6 +29,7 @@ public class MainController {
     public Button restartButton;
 
     private Preferences preferences;
+    private final SessionResultsRepository resultsService = new SessionResultMapService();
 
     @FXML
     private void initialize() {
@@ -37,6 +42,10 @@ public class MainController {
     private void setupTimer() {
         countdownTimer.setOnFinished(() -> {
             //TODO: show results
+            TypingSessionResult result = typingControl.getSessionResult(preferences.getInt(TIMER_LENGTH_KEY, 60));
+            result.setSessionDate(LocalDate.now());
+            resultsService.save(result);
+            System.out.println(result.toString());
 
             restartButton.setVisible(false);
             typingControl.reset();

@@ -14,8 +14,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        String ಠ_ಠ = "hmm";
-        System.out.println(ಠ_ಠ);
+        //String ಠ_ಠ = "hmm";
+        //System.out.println(ಠ_ಠ);
 
         MainController controller;
         Parent root;
