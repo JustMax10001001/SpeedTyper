@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root hbarPolicy="NEVER" type="javafx.scene.control.ScrollPane" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <TextFlow fx:id="outputTextFlowBox" maxWidth="1.7976931348623157E308" />
+</fx:root>

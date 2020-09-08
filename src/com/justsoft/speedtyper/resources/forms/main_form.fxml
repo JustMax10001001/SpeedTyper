@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.justsoft.speedtyper.ui.controls.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="root" alignment="center" hgap="8.0" stylesheets="@../styles/main_form.css" vgap="8.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.justsoft.speedtyper.ui.controllers.MainController">
+   <columnConstraints>
+      <ColumnConstraints percentWidth="50.0" />
+      <ColumnConstraints percentWidth="50.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints percentHeight="30.0" />
+      <RowConstraints percentHeight="10.0" />
+      <RowConstraints percentHeight="60.0" vgrow="ALWAYS" />
+   </rowConstraints>
+
+   <stylesheets>
+      <URL value="@../styles/main_form.css" />
+   </stylesheets>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+   </padding>
+   <TypingControl fx:id="typingControl" alignment="CENTER" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+   <AnchorPane GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <Pane maxWidth="40.0" prefWidth="40.0" style="-fx-background-color: linear-gradient(to right, -fx-background, transparent)" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane layoutX="260.0" maxWidth="40.0" prefWidth="40.0" style="-fx-background-color: linear-gradient(to left, -fx-background, transparent)" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </AnchorPane>
+   <Hyperlink fx:id="preferencesHyperlink" onAction="#preferencesHyperlinkClick" styleClass="preferences-link" text="Preferences" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <GridPane.margin>
+         <Insets />
+      </GridPane.margin>
+   </Hyperlink>
+   <Timer fx:id="countdownTimer" alignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+   <Button fx:id="restartButton" alignment="TOP_CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#restartButtonClick" text="Restart" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+</GridPane>
