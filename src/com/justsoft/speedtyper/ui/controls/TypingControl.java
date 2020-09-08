@@ -117,14 +117,19 @@ public class TypingControl extends HBox {
     }
 
     private void populateDictionary() {
-        Task<Void> dictionaryPopulateTask = createPopulateDictionaryTask();
-        dictionaryPopulateTask.setOnSucceeded(event -> Platform.runLater(this::postInitialize));
+        Task<Dictionary> dictionaryPopulateTask = createPopulateDictionaryTask();
+        dictionaryPopulateTask.setOnSucceeded(event -> {
+            this.dictionary = dictionaryPopulateTask.getValue();
+            Platform.runLater(this::postInitialize);
+        });
         dictionaryPopulateTask.setOnFailed(event -> {
             dictionaryPopulateTask.getException().printStackTrace();
 
             ExceptionDialog.show(dictionaryPopulateTask.getException(), "Could not load dictionary");
         });
-        new Thread(dictionaryPopulateTask).start();
+        final Thread populateThread = new Thread(dictionaryPopulateTask);
+        populateThread.setDaemon(false);
+        populateThread.start();
     }
 
     private void fillWordBuffer() {
@@ -141,13 +146,13 @@ public class TypingControl extends HBox {
         outputTextBox.startNextWord();
     }
 
-    private Task<Void> createPopulateDictionaryTask() {
-        return new Task<Void>() {
+    private Task<Dictionary> createPopulateDictionaryTask() {
+        return new Task<Dictionary>() {
             @Override
-            protected Void call() throws Exception {
-                dictionary = new Dictionary(Resources.loadFile("dictionary.txt"));
+            protected Dictionary call() throws Exception {
+                Dictionary dictionary = new Dictionary(Resources.loadFile("dictionary.txt"));
                 dictionary.load();
-                return null;
+                return dictionary;
             }
         };
     }
