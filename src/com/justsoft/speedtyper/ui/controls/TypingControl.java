@@ -1,15 +1,21 @@
 package com.justsoft.speedtyper.ui.controls;
 
 import com.justsoft.speedtyper.Dictionary;
+import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.resources.Resources;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class TypingControl extends HBox {
@@ -25,6 +31,11 @@ public class TypingControl extends HBox {
 
     private final LinkedList<String> wordBuffer = new LinkedList<>();
     private String inputBuffer, activeWord;
+
+    private final ReadOnlyStringWrapper currentWord = new ReadOnlyStringWrapper("");
+    private final ReadOnlyIntegerWrapper correctWordCount = new ReadOnlyIntegerWrapper(0);
+    private final ReadOnlyIntegerWrapper characterCount = new ReadOnlyIntegerWrapper(0);
+    private final ReadOnlyIntegerWrapper mistakesCount = new ReadOnlyIntegerWrapper(0);
 
     public TypingControl() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/justsoft/speedtyper/resources/controls/typing_control.fxml"));
@@ -44,12 +55,12 @@ public class TypingControl extends HBox {
         populateDictionary();
     }
 
-    private boolean isInputCorrect() {
+    private boolean isInputPartiallyCorrect() {
         return activeWord.indexOf(inputBuffer) == 0;
     }
 
     private void updateTextBoxes() {
-        if (isInputCorrect()) {
+        if (isInputPartiallyCorrect()) {
             inputTextBox.updateActiveWord(inputBuffer, true);
 
             outputTextBox.updateActiveWord(inputBuffer.isEmpty() ? activeWord : activeWord.substring(inputBuffer.length()));
@@ -59,6 +70,13 @@ public class TypingControl extends HBox {
     }
 
     private void flushAndPrepareTextBoxes() {
+        if (isInputPartiallyCorrect() && activeWord.equals(inputBuffer)) {
+            correctWordCount.set(correctWordCount.get() + 1);
+            characterCount.set(activeWord.length() + characterCount.get());
+        } else {
+            mistakesCount.set(mistakesCount.get() + 1);
+        }
+
         inputTextBox.flushActiveWord();
         outputTextBox.flushActiveWord();
 
@@ -69,6 +87,7 @@ public class TypingControl extends HBox {
     private void prepareForNextWord() {
         inputBuffer = "";
         activeWord = wordBuffer.pollFirst();
+        currentWord.set(activeWord);
 
         appendRandomWordToBuffer();
     }
@@ -107,7 +126,21 @@ public class TypingControl extends HBox {
 
         wordBuffer.clear();
 
+        characterCount.set(0);
+        correctWordCount.set(0);
+        mistakesCount.set(0);
+        currentWord.set("");
+
         postInitialize();
+    }
+
+    public TypingSessionResult getSessionResult(int sessionTime) {
+        TypingSessionResult result = new TypingSessionResult();
+        result.setMistakenWords(mistakesCount.get());
+        result.setTotalChars(characterCount.get());
+        result.setTotalWords(correctWordCount.get());
+        result.setSessionTimeSeconds(sessionTime);
+        return result;
     }
 
     private void appendRandomWordToBuffer() {
