@@ -85,6 +85,13 @@ public class MainController {
             DialogPane dialogPane = resultDialog.getDialogPane();
             dialogPane.setContent(loader.getRoot());
             dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+            Button closeButton = (Button) dialogPane.lookupButton(ButtonType.CLOSE);
+            closeButton.setDefaultButton(false);
+            dialogPane.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {   // prevent space from closing the result screen
+                if (keyEvent.getCode() == KeyCode.SPACE)
+                    keyEvent.consume();
+            });
+
 
             resultDialog.showAndWait();
         }catch (IOException e) {
