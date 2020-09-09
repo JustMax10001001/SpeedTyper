@@ -25,6 +25,13 @@ public class Resources {
         return new FXMLLoader(resourceUrl);
     }
 
+    public static FXMLLoader createLoaderForControl(String controlName) {
+        final URL resourceUrl = getResourceUrl(String.format("/res/controls/%s.fxml", controlName));
+        if (resourceUrl == null)
+            throw new IllegalArgumentException(String.format("There is no control called \"%s\"", controlName));
+        return new FXMLLoader(resourceUrl);
+    }
+
     public static FXMLLoader createLoaderForFormWithParameters(String formName, Bundle parameters) throws IOException {
         FXMLLoader loader = createLoaderForForm(formName);
         loader.load();
