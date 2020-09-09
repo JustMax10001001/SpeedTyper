@@ -31,7 +31,7 @@ public class MainController {
     @FXML public Button restartButton;
 
     private Preferences preferences;
-    private final SessionResultsRepository resultsService = new SessionResultMapService();
+    private final SessionResultsRepository resultsService = SessionResultMapService.getInstance();
 
     @FXML
     private void initialize() {
@@ -43,7 +43,6 @@ public class MainController {
 
     private void setupTimer() {
         countdownTimer.setOnFinished(() -> {
-            //TODO: show results
             TypingSessionResult result = typingControl.getSessionResult(preferences.getInt(TIMER_LENGTH_KEY, 60));
             result.setSessionDate(LocalDate.now());
             resultsService.save(result);
@@ -81,7 +80,7 @@ public class MainController {
             Dialog<Void> resultDialog = new Dialog<>();
             resultDialog.setTitle("Result");
             Bundle params = new Bundle();
-            params.set("hello", "Hello, world");
+            params.set("result_id", result.getId());
             FXMLLoader loader = Resources.createLoaderForFormWithParameters("typing_result_display_form", params);
             DialogPane dialogPane = resultDialog.getDialogPane();
             dialogPane.setContent(loader.getRoot());
