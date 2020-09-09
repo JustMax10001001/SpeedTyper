@@ -1,0 +1,9 @@
+.stat-value {
+    -fx-font-weight: bold;
+    -fx-font-size: 24.0;
+    -fx-text-fill: #006600;
+}
+
+.stat-name {
+    -fx-font-size: 18.0;
+}
