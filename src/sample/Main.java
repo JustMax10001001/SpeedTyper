@@ -29,7 +29,7 @@ public class Main extends Application {
             controller = loader.getController();
         }
 
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Typing speed test");
 
         Scene scene = new Scene(root, 400, -1);
         primaryStage.setScene(scene);
