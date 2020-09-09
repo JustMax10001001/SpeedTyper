@@ -75,6 +75,7 @@ public class Timer extends VBox {
                     isRunningProperty.set(false);
                     isPausedProperty.set(false);
                     onFinishedEventHandler.onFinished();
+                    timeRemainingProperty.set(timerLength);
                 });
             cancel();
         }
@@ -110,6 +111,8 @@ public class Timer extends VBox {
 
     public void setTimerLength(int timerLength) {
         this.timerLength = timerLength;
+        if (!isRunning())
+            timeRemainingProperty.set(timerLength);
     }
 
     public int getTimerLength() {
