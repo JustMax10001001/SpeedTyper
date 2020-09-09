@@ -14,13 +14,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //String ಠ_ಠ = "hmm";
-        //System.out.println(ಠ_ಠ);
-
         MainController controller;
         Parent root;
         {
-            FXMLLoader loader = null;
+            FXMLLoader loader;
             try {
                 loader = new FXMLLoader(getClass().getResource("/com/justsoft/speedtyper/resources/forms/main_form.fxml"));
             }catch (Exception e){
@@ -37,7 +34,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 400, -1);
         primaryStage.setScene(scene);
 
-        //scene.setOnKeyPressed(((MainController)scene.getUserData())::keyPressed);
         primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, controller::keyPressed);
         primaryStage.show();
     }
