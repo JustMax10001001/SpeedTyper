@@ -5,47 +5,48 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="8.0" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+<GridPane hgap="8.0" prefHeight="200.0" prefWidth="400.0"
+          xmlns="http://javafx.com/javafx/11.0.1"
           xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="com.justsoft.speedtyper.ui.controllers.PreferencesController">
-   <columnConstraints>
-      <ColumnConstraints/>
-      <ColumnConstraints/>
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints/>
-   </rowConstraints>
-   <opaqueInsets>
-      <Insets/>
-   </opaqueInsets>
-   <padding>
-      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
-   </padding>
-   <Label layoutX="14.0" layoutY="14.0" text="Timer length">
-      <font>
-         <Font size="14.0"/>
-      </font>
-   </Label>
-   <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" spacing="8" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
-      <Spinner fx:id="minutesSpinner" editable="true" prefHeight="25.0" prefWidth="74.0">
-         <valueFactory>
-            <SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="1" max="30" min="0"/>
-         </valueFactory>
-      </Spinner>
-      <Label text="m">
-         <font>
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+    </rowConstraints>
+    <opaqueInsets>
+        <Insets/>
+    </opaqueInsets>
+    <padding>
+        <Insets bottom="12.0" left="12.0" right="12.0" top="12.0"/>
+    </padding>
+    <Label layoutX="14.0" layoutY="14.0" text="Timer length">
+        <font>
             <Font size="14.0"/>
-         </font>
-      </Label>
-      <Spinner fx:id="secondsSpinner" editable="true" prefHeight="25.0" prefWidth="74.0">
-         <valueFactory>
-            <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="5" max="55" min="0"/>
-         </valueFactory>
-      </Spinner>
-      <Label text="s">
-         <font>
-            <Font size="14.0"/>
-         </font>
-      </Label>
-   </HBox>
+        </font>
+    </Label>
+    <HBox alignment="BOTTOM_LEFT" prefWidth="200.0" spacing="8" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+        <Spinner fx:id="minutesSpinner" editable="true" prefHeight="25.0" prefWidth="74.0">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="1" max="30" min="0"/>
+            </valueFactory>
+        </Spinner>
+        <Label text="m">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Spinner fx:id="secondsSpinner" editable="true" prefHeight="25.0" prefWidth="74.0">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="5" max="55" min="0"/>
+            </valueFactory>
+        </Spinner>
+        <Label text="s">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+    </HBox>
 </GridPane>
