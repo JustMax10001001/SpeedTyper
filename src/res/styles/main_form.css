@@ -5,11 +5,10 @@
 }
 
 .flowing-text: input {
-    -fx-fill: #3483eb;
+    -fx-fill: #006600;
 }
 
 .flowing-text: is-edited {
-    //-fx-font-style: italic
 }
 
 .flowing-text: error {
