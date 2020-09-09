@@ -1,4 +1,4 @@
-package sample;
+package com.justsoft.speedtyper;
 
 import com.justsoft.speedtyper.ui.controllers.MainController;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
