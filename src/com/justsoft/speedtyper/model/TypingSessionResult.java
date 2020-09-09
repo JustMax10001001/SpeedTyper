@@ -13,11 +13,11 @@ public class TypingSessionResult extends BaseModel {
     private int sessionTimeSeconds;
 
     public double getWordsPerMinute() {
-        return ((double) totalWords) / sessionTimeSeconds * 60;
+        return ((double) totalWords) / sessionTimeSeconds * 60d;
     }
 
     public double getCharsPerMinute() {
-        return ((double) totalChars) / sessionTimeSeconds * 60;
+        return ((double) totalChars) / sessionTimeSeconds * 60d;
     }
 
     public int getSessionTimeSeconds() {

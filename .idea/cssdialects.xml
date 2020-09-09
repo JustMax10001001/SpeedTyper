@@ -2,5 +2,6 @@
 <project version="4">
   <component name="CssDialectMappings">
     <file url="file://$PROJECT_DIR$/src/res/styles/main_form.css" dialect="CLASSIC" />
+    <file url="file://$PROJECT_DIR$/src/res/styles/stats.css" dialect="CLASSIC" />
   </component>
 </project>
