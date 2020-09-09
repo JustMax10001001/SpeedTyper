@@ -2,12 +2,14 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
+import com.justsoft.speedtyper.util.Bundle;
 import com.justsoft.speedtyper.util.Resources;
 import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -47,6 +49,8 @@ public class MainController {
             resultsService.save(result);
             System.out.println(result.toString());
 
+            showResult(result);
+
             restartButton.setVisible(false);
             typingControl.reset();
         });
@@ -70,6 +74,23 @@ public class MainController {
             typingControl.handleBackspace();
         }
         event.consume();
+    }
+
+    private void showResult(TypingSessionResult result) {
+        try {
+            Dialog<Void> resultDialog = new Dialog<>();
+            resultDialog.setTitle("Result");
+            Bundle params = new Bundle();
+            params.set("hello", "Hello, world");
+            FXMLLoader loader = Resources.createLoaderForFormWithParameters("typing_result_display_form", params);
+            DialogPane dialogPane = resultDialog.getDialogPane();
+            dialogPane.setContent(loader.getRoot());
+            dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+
+            resultDialog.showAndWait();
+        }catch (IOException e) {
+            ExceptionDialog.show(e, "Unable to load result form");
+        }
     }
 
     public void preferencesHyperlinkClick() {

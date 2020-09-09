@@ -1,5 +1,6 @@
 package com.justsoft.speedtyper.util;
 
+import com.justsoft.speedtyper.ui.controllers.ControllerWithParameters;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -22,6 +23,21 @@ public class Resources {
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no form called \"%s\"", formName));
         return new FXMLLoader(resourceUrl);
+    }
+
+    public static FXMLLoader createLoaderForFormWithParameters(String formName, Bundle parameters) throws IOException {
+        FXMLLoader loader = createLoaderForForm(formName);
+        loader.load();
+        Object controller = loader.getController();
+        if (!(controller instanceof ControllerWithParameters))
+            throw new IllegalStateException(
+                    String.format(
+                            "Unable to set parameters for controller %s as it does not extend ControllerWithParameters",
+                            controller.getClass().getName()
+                    )
+            );
+        ((ControllerWithParameters) controller).setParametersAndInitialize(parameters);
+        return loader;
     }
 
     public static Parent loadForm(String formName) throws IOException {
