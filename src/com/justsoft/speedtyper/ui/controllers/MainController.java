@@ -31,7 +31,7 @@ public class MainController {
     @FXML public Button restartButton;
 
     private Preferences preferences;
-    private final SessionResultsRepository resultsService = SessionResultMapService.getInstance();
+    private final SessionResultsRepository resultsService = SessionResultsRepository.getPreferredInstance();
 
     @FXML
     private void initialize() {
