@@ -10,7 +10,7 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 
-public class TypingResultDisplayForm extends ControllerWithParameters {
+public class TypingResultDisplayController extends ControllerWithParameters {
 
     private final ViewModel viewModel = new ViewModel();
     private final SessionResultsRepository resultsRepository = SessionResultsRepository.getPreferredInstance();

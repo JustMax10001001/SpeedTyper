@@ -3,11 +3,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.justsoft.speedtyper.ui.controls.StatControl?>
-<AnchorPane prefHeight="300.0" prefWidth="500.0"
+<AnchorPane prefHeight="100.0" prefWidth="400.0"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.justsoft.speedtyper.ui.controllers.TypingResultDisplayForm">
-    <HBox prefHeight="100.0" prefWidth="500.0">
+            fx:controller="com.justsoft.speedtyper.ui.controllers.TypingResultDisplayController">
+    <HBox prefHeight="100.0" prefWidth="400.0">
         <StatControl fx:id="wordsPerMinuteStat"/>
         <StatControl fx:id="charsPerMinuteStat"/>
         <StatControl fx:id="mistakesCountStat"/>
