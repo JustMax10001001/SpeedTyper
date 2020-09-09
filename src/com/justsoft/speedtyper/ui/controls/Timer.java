@@ -31,8 +31,6 @@ public class Timer extends VBox {
     @FXML
     private int timerLength = DEFAULT_TIMER_VALUE;
 
-    //private volatile boolean paused = false;
-
     private ScheduledFuture<?> timerScheduleHandle;
 
     private TimerFinishedEventHandler onFinishedEventHandler;
