@@ -22,11 +22,11 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
 
 public class MainController {
 
-    public GridPane root;
-    public Hyperlink preferencesHyperlink;
-    public Timer countdownTimer;
-    public TypingControl typingControl;
-    public Button restartButton;
+    @FXML public GridPane root;
+    @FXML public Hyperlink preferencesHyperlink;
+    @FXML public Timer countdownTimer;
+    @FXML public TypingControl typingControl;
+    @FXML public Button restartButton;
 
     private Preferences preferences;
     private final SessionResultsRepository resultsService = new SessionResultMapService();
