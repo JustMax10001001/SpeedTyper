@@ -1,6 +1,7 @@
 package com.justsoft.speedtyper.ui.controls;
 
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -26,7 +27,7 @@ public class Timer extends VBox {
     private final ReadOnlyBooleanWrapper isPausedProperty = new ReadOnlyBooleanWrapper(false);
     private final ReadOnlyBooleanWrapper isRunningProperty = new ReadOnlyBooleanWrapper(false);
 
-    private final ScheduledExecutorService timerTaskExecutor = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService timerTaskExecutor;
 
     @FXML
     private int timerLength = DEFAULT_TIMER_VALUE;
@@ -36,7 +37,14 @@ public class Timer extends VBox {
     private TimerFinishedEventHandler onFinishedEventHandler;
 
     public Timer() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/controls/timer_control.fxml"));
+        timerTaskExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
+            final Thread thread = new Thread(r, "Timer thread");
+            thread.setDaemon(true);
+            return thread;
+        });
+
+
+        FXMLLoader loader = Resources.createLoaderForControl("timer_control");
         loader.setRoot(this);
         loader.setController(this);
 
@@ -65,7 +73,7 @@ public class Timer extends VBox {
 
         if (timeRemainingProperty.get() > 0) {
             Platform.runLater(() ->
-                timeRemainingProperty.set(timeRemainingProperty.get() - 1)
+                    timeRemainingProperty.set(timeRemainingProperty.get() - 1)
             );
         } else {
             if (onFinishedEventHandler != null)
