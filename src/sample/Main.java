@@ -19,7 +19,7 @@ public class Main extends Application {
         {
             FXMLLoader loader;
             try {
-                loader = new FXMLLoader(getClass().getResource("/com/justsoft/speedtyper/resources/forms/main_form.fxml"));
+                loader = new FXMLLoader(getClass().getResource("/res/forms/main_form.fxml"));
             }catch (Exception e){
                 ExceptionDialog.show(e, "Unable to load main form");
                 Platform.exit();

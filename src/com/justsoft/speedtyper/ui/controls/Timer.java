@@ -3,13 +3,10 @@ package com.justsoft.speedtyper.ui.controls;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -41,7 +38,7 @@ public class Timer extends VBox {
     private TimerFinishedEventHandler onFinishedEventHandler;
 
     public Timer() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/justsoft/speedtyper/resources/controls/timer_control.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/controls/timer_control.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

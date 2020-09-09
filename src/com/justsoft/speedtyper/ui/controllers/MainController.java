@@ -2,7 +2,7 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
-import com.justsoft.speedtyper.resources.Resources;
+import com.justsoft.speedtyper.util.Resources;
 import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.TypingControl;

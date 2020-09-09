@@ -2,12 +2,10 @@ package com.justsoft.speedtyper.ui.controls;
 
 import com.justsoft.speedtyper.Dictionary;
 import com.justsoft.speedtyper.model.TypingSessionResult;
-import com.justsoft.speedtyper.resources.Resources;
+import com.justsoft.speedtyper.util.Resources;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -15,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class TypingControl extends HBox {
@@ -38,7 +35,7 @@ public class TypingControl extends HBox {
     private final ReadOnlyIntegerWrapper mistakesCount = new ReadOnlyIntegerWrapper(0);
 
     public TypingControl() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/justsoft/speedtyper/resources/controls/typing_control.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/controls/typing_control.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper;
 
-import com.justsoft.speedtyper.resources.Resources;
+import com.justsoft.speedtyper.util.Resources;
 
 import java.io.*;
 import java.net.URISyntaxException;
