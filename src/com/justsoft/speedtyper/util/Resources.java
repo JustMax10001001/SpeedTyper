@@ -17,11 +17,15 @@ public class Resources {
         return Resources.class.getResource(resourceName);
     }
 
-    public static Parent loadForm(String formName) throws IOException {
+    public static FXMLLoader createLoaderForForm(String formName) {
         final URL resourceUrl = getResourceUrl(String.format("/res/forms/%s.fxml", formName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no form called \"%s\"", formName));
-        return FXMLLoader.load(resourceUrl);
+        return new FXMLLoader(resourceUrl);
+    }
+
+    public static Parent loadForm(String formName) throws IOException {
+        return createLoaderForForm(formName).load();
     }
 
     public static File loadFile(String fileName) throws URISyntaxException {

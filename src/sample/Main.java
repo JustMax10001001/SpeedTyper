@@ -2,6 +2,7 @@ package sample;
 
 import com.justsoft.speedtyper.ui.controllers.MainController;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ public class Main extends Application {
         {
             FXMLLoader loader;
             try {
-                loader = new FXMLLoader(getClass().getResource("/res/forms/main_form.fxml"));
+                loader = Resources.createLoaderForForm("main_form");
             }catch (Exception e){
                 ExceptionDialog.show(e, "Unable to load main form");
                 Platform.exit();
