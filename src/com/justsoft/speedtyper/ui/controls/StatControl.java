@@ -57,7 +57,6 @@ public class StatControl<T> extends VBox {
         );
 
         subjectiveStatQualityProperty.addListener((observableValue, beforeValue, afterValue) -> {
-            System.out.println(afterValue);
             switch (beforeValue){
                 case BAD:
                     statValueLabel.pseudoClassStateChanged(IS_BAD_RESULT, false);
