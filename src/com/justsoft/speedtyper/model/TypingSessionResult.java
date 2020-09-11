@@ -12,6 +12,17 @@ public class TypingSessionResult extends BaseModel {
 
     private int sessionTimeSeconds;
 
+    public TypingSessionResult() {
+    }
+
+    public TypingSessionResult(int totalChars, int totalWords, int mistakenWords, LocalDate sessionDate, int sessionTimeSeconds) {
+        this.totalChars = totalChars;
+        this.totalWords = totalWords;
+        this.mistakenWords = mistakenWords;
+        this.sessionDate = sessionDate;
+        this.sessionTimeSeconds = sessionTimeSeconds;
+    }
+
     public double getWordsPerMinute() {
         return ((double) totalWords) / sessionTimeSeconds * 60d;
     }
@@ -63,7 +74,7 @@ public class TypingSessionResult extends BaseModel {
     @Override
     public String toString() {
         return "TypingSessionResult{" +
-                "id="+ getId() +
+                "id=" + getId() +
                 ", totalChars=" + totalChars +
                 ", totalWords=" + totalWords +
                 ", mistakenWords=" + mistakenWords +
