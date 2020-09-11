@@ -126,7 +126,7 @@ public class MainController {
         try {
             Dialog<Void> resultsDialog = new Dialog<>();
             resultsDialog.setTitle("Results");
-            resultsDialog.getDialogPane().setContent(Resources.loadForm("results_firm"));
+            resultsDialog.getDialogPane().setContent(Resources.loadForm("results_display_form"));
             resultsDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
 
             resultsDialog.showAndWait();
