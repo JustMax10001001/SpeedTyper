@@ -8,6 +8,7 @@ import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -24,11 +25,12 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
 
 public class MainController {
 
-    @FXML public GridPane root;
-    @FXML public Hyperlink preferencesHyperlink;
-    @FXML public Timer countdownTimer;
-    @FXML public TypingControl typingControl;
-    @FXML public Button restartButton;
+    @FXML private GridPane root;
+    @FXML private Hyperlink preferencesHyperlink;
+    @FXML private Timer countdownTimer;
+    @FXML private TypingControl typingControl;
+    @FXML private Button restartButton;
+    @FXML private Hyperlink resultsHyperlink;
 
     private Preferences preferences;
     private final SessionResultsRepository resultsService = SessionResultsRepository.getPreferredInstance();
@@ -115,6 +117,21 @@ public class MainController {
             updateTimer();
         } catch (IOException e) {
             ExceptionDialog.show(e, "Unable to load preferences form");
+        }
+    }
+
+    public void resultsHyperlinkClick() {
+        resultsHyperlink.setVisited(false);
+
+        try {
+            Dialog<Void> resultsDialog = new Dialog<>();
+            resultsDialog.setTitle("Results");
+            resultsDialog.getDialogPane().setContent(Resources.loadForm("results_firm"));
+            resultsDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+            resultsDialog.showAndWait();
+        } catch (IOException e) {
+            ExceptionDialog.show(e, "Unable to load results form");
         }
     }
 
