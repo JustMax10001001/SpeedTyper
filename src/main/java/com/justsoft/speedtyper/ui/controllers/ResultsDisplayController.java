@@ -34,7 +34,7 @@ public class ResultsDisplayController {
         dateUpToPicker.valueProperty().bindBidirectional(viewModel.dateUpToProperty);
 
         viewModel.resultSourceList.addAll(resultsRepository.getAll());
-        cpmChart.getData().add(new XYChart.Series<>("CPM", FXCollections.observableArrayList()));
+        cpmChart.getData().add(new XYChart.Series<>());
         cpmChart.getData().get(0).dataProperty().bind(viewModel.filteredResultsCpm);
     }
 
