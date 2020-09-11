@@ -19,14 +19,14 @@ public class Resources {
     }
 
     public static FXMLLoader createLoaderForForm(String formName) {
-        final URL resourceUrl = getResourceUrl(String.format("/res/forms/%s.fxml", formName));
+        final URL resourceUrl = getResourceUrl(String.format("/forms/%s.fxml", formName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no form called \"%s\"", formName));
         return new FXMLLoader(resourceUrl);
     }
 
     public static FXMLLoader createLoaderForControl(String controlName) {
-        final URL resourceUrl = getResourceUrl(String.format("/res/controls/%s.fxml", controlName));
+        final URL resourceUrl = getResourceUrl(String.format("/controls/%s.fxml", controlName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no control called \"%s\"", controlName));
         return new FXMLLoader(resourceUrl);
@@ -52,7 +52,7 @@ public class Resources {
     }
 
     public static File loadFile(String fileName) throws URISyntaxException {
-        final URL resourceUrl = getResourceUrl(String.format("/res/files/%s", fileName));
+        final URL resourceUrl = getResourceUrl(String.format("/files/%s", fileName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no file called \"%s\"", fileName));
         return new File(resourceUrl.toURI());

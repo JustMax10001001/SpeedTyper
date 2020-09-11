@@ -35,7 +35,7 @@ public class TypingControl extends HBox {
     private final ReadOnlyIntegerWrapper mistakesCount = new ReadOnlyIntegerWrapper(0);
 
     public TypingControl() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/controls/typing_control.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/controls/typing_control.fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

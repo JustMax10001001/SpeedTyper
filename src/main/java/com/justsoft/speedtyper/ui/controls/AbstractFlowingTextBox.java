@@ -12,7 +12,7 @@ abstract class AbstractFlowingTextBox extends ScrollPane {
     protected Word activeWord;
 
     public AbstractFlowingTextBox(String controlName) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/res/controls/" + controlName + ".fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/controls/" + controlName + ".fxml"));
         loader.setRoot(this);
         loader.setController(this);
 

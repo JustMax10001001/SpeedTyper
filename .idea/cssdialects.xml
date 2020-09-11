@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CssDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/res/styles/main_form.css" dialect="CLASSIC" />
-    <file url="file://$PROJECT_DIR$/src/main/java/res/styles/stats.css" dialect="CLASSIC" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/styles/main_form.css" dialect="CLASSIC" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/styles/stats.css" dialect="CLASSIC" />
   </component>
 </project>

@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SpeedTyper" target="8" />
+      <module name="SpeedTyper" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
