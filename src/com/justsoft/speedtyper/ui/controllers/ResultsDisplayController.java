@@ -23,7 +23,7 @@ public class ResultsDisplayController {
     @FXML
     private DatePicker dateUpToPicker;
     @FXML
-    private LineChart<String , Integer> cpmChart;
+    private LineChart<String, Integer> cpmChart;
 
     private final ViewModel viewModel = new ViewModel();
     private final SessionResultsRepository resultsRepository = SessionResultsRepository.getPreferredInstance();
@@ -52,7 +52,9 @@ public class ResultsDisplayController {
             list.addAll(
                     resultSourceList
                             .stream()
-                            .filter(item -> item.getSessionDate().isAfter(dateSince) && item.getSessionDate().isBefore(dateUpTo))
+                            .filter(item ->
+                                    item.getSessionDate().isAfter(dateSince) && (item.getSessionDate().isBefore(dateUpTo) || item.getSessionDate().isEqual(dateUpTo))
+                            )
                             .map(item -> new XYChart.Data<>(item.getSessionDate().toString(), (int) item.getCharsPerMinute()))
                             .collect(Collectors.toList())
 
