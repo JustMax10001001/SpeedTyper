@@ -23,7 +23,7 @@ public class ResultsDisplayController {
     @FXML
     private DatePicker dateUpToPicker;
     @FXML
-    private LineChart<LocalDate, Integer> cpmChart;
+    private LineChart<String , Integer> cpmChart;
 
     private final ViewModel viewModel = new ViewModel();
     private final SessionResultsRepository resultsRepository = SessionResultsRepository.getPreferredInstance();
@@ -34,6 +34,7 @@ public class ResultsDisplayController {
         dateUpToPicker.valueProperty().bindBidirectional(viewModel.dateUpToProperty);
 
         viewModel.resultSourceList.addAll(resultsRepository.getAll());
+        cpmChart.getData().add(new XYChart.Series<>("CPM", FXCollections.observableArrayList()));
         cpmChart.getData().get(0).dataProperty().bind(viewModel.filteredResultsCpm);
     }
 
@@ -42,17 +43,17 @@ public class ResultsDisplayController {
         private final ObjectProperty<LocalDate> dateSinceProperty = new SimpleObjectProperty<>(LocalDate.of(1970, 1, 1));
         private final ObjectProperty<LocalDate> dateUpToProperty = new SimpleObjectProperty<>(LocalDate.now());
 
-        private final ObservableList<TypingSessionResult> resultSourceList = FXCollections.emptyObservableList();
+        private final ObservableList<TypingSessionResult> resultSourceList = FXCollections.observableArrayList();
 
-        private final ObjectBinding<ObservableList<XYChart.Data<LocalDate, Integer>>> filteredResultsCpm = Bindings.createObjectBinding(() -> {
-            ObservableList<XYChart.Data<LocalDate, Integer>> list = FXCollections.observableArrayList();
+        private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> filteredResultsCpm = Bindings.createObjectBinding(() -> {
+            ObservableList<XYChart.Data<String, Integer>> list = FXCollections.observableArrayList();
             final LocalDate dateSince = dateSinceProperty.get();
             final LocalDate dateUpTo = dateUpToProperty.get();
             list.addAll(
                     resultSourceList
                             .stream()
                             .filter(item -> item.getSessionDate().isAfter(dateSince) && item.getSessionDate().isBefore(dateUpTo))
-                            .map(item -> new XYChart.Data<>(item.getSessionDate(), (int) item.getCharsPerMinute()))
+                            .map(item -> new XYChart.Data<>(item.getSessionDate().toString(), (int) item.getCharsPerMinute()))
                             .collect(Collectors.toList())
 
             );
