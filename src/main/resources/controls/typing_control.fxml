@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.justsoft.speedtyper.ui.controls.*?>
+<?import com.justsoft.speedtyper.ui.controls.typing.*?>
 <?import javafx.scene.layout.*?>
 
 <fx:root spacing="8.0" type="javafx.scene.layout.HBox"

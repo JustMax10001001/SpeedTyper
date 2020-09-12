@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.justsoft.speedtyper.ui.controls.typing.TypingControl?>
 <GridPane fx:id="root" alignment="center" hgap="8.0" stylesheets="@../styles/main_form.css" vgap="8.0"
           xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="com.justsoft.speedtyper.ui.controllers.MainController">
