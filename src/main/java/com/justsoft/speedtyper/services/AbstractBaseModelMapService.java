@@ -20,7 +20,11 @@ public class AbstractBaseModelMapService<T extends BaseModel> implements CRUDRep
     @Override
     public T save(T value) {
         if (value.getId() == null){
-            value.setId(map.keySet().size());
+            int maxKey = 0;
+            for (int key : map.keySet()){
+                maxKey = Math.max(maxKey, key);
+            }
+            value.setId(maxKey + 1);
         }
         map.put(value.getId(), value);
         return value;
