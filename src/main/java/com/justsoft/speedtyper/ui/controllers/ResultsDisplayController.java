@@ -52,9 +52,7 @@ public class ResultsDisplayController {
             map.get(item.getSessionDate()).add(item);
         });
         List<XYChart.Data<LocalDate, Integer>> outputList = new ArrayList<>();
-        map.forEach((date, entryList) -> {
-            outputList.add(new XYChart.Data<>(date, (int) Stats.calculateMedian(entryList, TypingSessionResult::getCharsPerMinute)));
-        });
+        map.forEach((date, entryList) -> outputList.add(new XYChart.Data<>(date, (int) Stats.calculateMedian(entryList, TypingSessionResult::getCharsPerMinute))));
         return outputList;
     }
 
