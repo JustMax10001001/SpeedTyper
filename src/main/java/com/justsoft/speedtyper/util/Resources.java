@@ -4,9 +4,8 @@ import com.justsoft.speedtyper.ui.controllers.ControllerWithParameters;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.net.URL;
 
 public class Resources {
@@ -51,10 +50,16 @@ public class Resources {
         return createLoaderForForm(formName).load();
     }
 
-    public static File loadFile(String fileName) throws URISyntaxException {
-        final URL resourceUrl = getResourceUrl(String.format("/files/%s", fileName));
-        if (resourceUrl == null)
-            throw new IllegalArgumentException(String.format("There is no file called \"%s\"", fileName));
-        return new File(resourceUrl.toURI());
+    public static InputStream getFileResourceAsStream(String resourceName) {
+        final String resource = String.format("/files/%s", resourceName);
+        return getResourceAsStream(resource);
+    }
+
+    private static InputStream getResourceAsStream(String resource) {
+        InputStream resourceStream = Resources.class.getResourceAsStream(resource);
+        if (resourceStream == null) {
+            throw new IllegalArgumentException(String.format("There is no resource file called \"%s\"", resource));
+        }
+        return resourceStream;
     }
 }
