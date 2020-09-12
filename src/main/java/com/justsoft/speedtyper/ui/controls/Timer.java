@@ -2,6 +2,7 @@ package com.justsoft.speedtyper.ui.controls;
 
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import com.justsoft.speedtyper.util.Resources;
+import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -37,12 +38,7 @@ public class Timer extends VBox {
     private TimerFinishedEventHandler onFinishedEventHandler;
 
     public Timer() {
-        timerTaskExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
-            final Thread thread = new Thread(r, "Timer thread");
-            thread.setDaemon(true);
-            return thread;
-        });
-
+        timerTaskExecutor = Executors.newSingleThreadScheduledExecutor(new DaemonThreadFactory());
 
         FXMLLoader loader = Resources.createLoaderForControl("timer_control");
         loader.setRoot(this);

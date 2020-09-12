@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
+import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class SessionResultJsonService implements SessionResultsRepository {
 
@@ -80,7 +78,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
 
     /* PERSISTENCE */
 
-    private final ExecutorService backgroundIoExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService backgroundIoExecutor = Executors.newSingleThreadExecutor(new DaemonThreadFactory());
     private Future<?> backgroundExecutorFuture = null;
 
     private void loadSessionResults() {
