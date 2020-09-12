@@ -1,5 +1,6 @@
-package com.justsoft.speedtyper.ui.controls;
+package com.justsoft.speedtyper.ui.controls.typing;
 
+import com.justsoft.speedtyper.ui.controls.Word;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

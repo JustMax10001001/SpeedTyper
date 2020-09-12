@@ -1,4 +1,4 @@
-package com.justsoft.speedtyper.ui.controls;
+package com.justsoft.speedtyper.ui.controls.typing;
 
 import com.justsoft.speedtyper.Dictionary;
 import com.justsoft.speedtyper.model.TypingSessionResult;
@@ -177,7 +177,7 @@ public class TypingControl extends HBox {
     }
 
     private Task<Dictionary> createPopulateDictionaryTask() {
-        return new Task<Dictionary>() {
+        return new Task<>() {
             @Override
             protected Dictionary call() throws Exception {
                 Dictionary dictionary = new Dictionary(Resources.loadFile("dictionary.txt"));

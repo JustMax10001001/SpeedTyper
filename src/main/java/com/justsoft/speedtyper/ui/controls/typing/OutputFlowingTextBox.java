@@ -1,5 +1,6 @@
-package com.justsoft.speedtyper.ui.controls;
+package com.justsoft.speedtyper.ui.controls.typing;
 
+import com.justsoft.speedtyper.ui.controls.Word;
 import javafx.fxml.FXML;
 import javafx.scene.text.TextFlow;
 

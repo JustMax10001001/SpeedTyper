@@ -1,11 +1,10 @@
-package com.justsoft.speedtyper.ui.controls;
+package com.justsoft.speedtyper.ui.controls.typing;
 
+import com.justsoft.speedtyper.ui.controls.Word;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
