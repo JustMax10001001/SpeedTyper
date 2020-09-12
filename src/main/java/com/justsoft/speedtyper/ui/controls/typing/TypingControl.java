@@ -180,7 +180,7 @@ public class TypingControl extends HBox {
         return new Task<>() {
             @Override
             protected Dictionary call() throws Exception {
-                Dictionary dictionary = new Dictionary(Resources.loadFile("dictionary.txt"));
+                Dictionary dictionary = new Dictionary(Resources.getFileResourceAsStream("dictionary.txt"));
                 dictionary.load();
                 return dictionary;
             }
