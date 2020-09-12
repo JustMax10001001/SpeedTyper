@@ -1,7 +1,5 @@
 package com.justsoft.speedtyper;
 
-import com.justsoft.speedtyper.util.Resources;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -12,13 +10,13 @@ public class Dictionary {
     private static final int DICTIONARY_CAPACITY = 3000;
     private final Object _lck = new Object();
 
-    private File source;
+    private final InputStream inputStream;
 
     private ArrayList<String> dictionary;
     private Random random;
 
-    public Dictionary(File source){
-        this.source = source;
+    public Dictionary(InputStream source){
+        this.inputStream = source;
     }
 
     public String getRandomDictionaryWord() {
@@ -29,12 +27,12 @@ public class Dictionary {
         return word;
     }
 
-    public void load() throws URISyntaxException, IOException {
+    public void load() throws IOException {
         synchronized (_lck) {
             random = new Random(System.currentTimeMillis());
             dictionary = new ArrayList<>(DICTIONARY_CAPACITY);
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(Resources.loadFile("dictionary.txt"))))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     dictionary.add(line);
