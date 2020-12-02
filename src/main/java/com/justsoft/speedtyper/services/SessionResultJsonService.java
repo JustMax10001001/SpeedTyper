@@ -1,6 +1,7 @@
 package com.justsoft.speedtyper.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
@@ -14,6 +15,7 @@ import java.util.concurrent.*;
 public class SessionResultJsonService implements SessionResultsRepository {
 
     private final Map<Integer, TypingSessionResult> resultMap = new HashMap<>();
+    private final Gson gson;
 
     @Override
     public List<TypingSessionResult> getAll() {
@@ -63,6 +65,9 @@ public class SessionResultJsonService implements SessionResultsRepository {
     private static volatile SessionResultJsonService instance;
 
     private SessionResultJsonService() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        this.gson = gsonBuilder.create();
         executeIoInBackground(this::loadSessionResults);
     }
 
@@ -85,7 +90,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
         Type resultType = new TypeToken<Set<TypingSessionResult>>() {
         }.getType();
         try (FileInputStream stream = new FileInputStream("results.json")) {
-            Set<TypingSessionResult> results = new Gson().fromJson(new InputStreamReader(stream), resultType);
+            Set<TypingSessionResult> results = gson.fromJson(new InputStreamReader(stream), resultType);
             results.forEach(result -> resultMap.put(result.getId(), result));
         } catch (FileNotFoundException e) {
             try {
@@ -104,7 +109,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
 
     private void saveSessionResults() {
         try (FileWriter fileWriter = new FileWriter("results.json")) {
-            new Gson().toJson(resultMap.values(), fileWriter);
+            gson.toJson(resultMap.values(), fileWriter);
         } catch (IOException e) {
             e.printStackTrace();
         }
