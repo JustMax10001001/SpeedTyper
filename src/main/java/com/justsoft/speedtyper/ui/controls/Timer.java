@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.concurrent.*;
 
+@SuppressWarnings({"BooleanMethodIsAlwaysInverted", "unused"})
 public class Timer extends VBox {
 
     private static final int DEFAULT_TIMER_VALUE = 60;
@@ -63,6 +64,16 @@ public class Timer extends VBox {
         );
     }
 
+    private void finish(boolean interrupted) {
+        isRunningProperty.set(false);
+        isPausedProperty.set(false);
+
+        if (onFinishedEventHandler != null)
+            onFinishedEventHandler.onFinished(interrupted);
+
+        timeRemainingProperty.set(timerLength);
+    }
+
     private void timerTick() {
         if (isPausedProperty.get())
             return;
@@ -72,13 +83,7 @@ public class Timer extends VBox {
                     timeRemainingProperty.set(timeRemainingProperty.get() - 1)
             );
         } else {
-            if (onFinishedEventHandler != null)
-                Platform.runLater(() -> {
-                    isRunningProperty.set(false);
-                    isPausedProperty.set(false);
-                    onFinishedEventHandler.onFinished();
-                    timeRemainingProperty.set(timerLength);
-                });
+            Platform.runLater(() -> finish(false));
             cancel();
         }
     }
@@ -91,8 +96,9 @@ public class Timer extends VBox {
         timerScheduleHandle = timerTaskExecutor.scheduleAtFixedRate(this::timerTick, 0, 1, TimeUnit.SECONDS);
     }
 
-    public boolean cancel() {
-        return timerScheduleHandle.cancel(false);
+    public void cancel() {
+        timerScheduleHandle.cancel(true);
+        Platform.runLater(() -> finish(true));
     }
 
     public void setOnFinished(TimerFinishedEventHandler handler) {
@@ -126,6 +132,6 @@ public class Timer extends VBox {
     }
 
     public interface TimerFinishedEventHandler {
-        void onFinished();
+        void onFinished(boolean cancelled);
     }
 }

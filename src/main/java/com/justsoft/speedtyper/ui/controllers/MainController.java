@@ -23,12 +23,18 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
 
 public class MainController {
 
-    @FXML private GridPane root;
-    @FXML private Hyperlink preferencesHyperlink;
-    @FXML private Timer countdownTimer;
-    @FXML private TypingControl typingControl;
-    @FXML private Button restartButton;
-    @FXML private Hyperlink resultsHyperlink;
+    @FXML
+    private GridPane root;
+    @FXML
+    private Hyperlink preferencesHyperlink;
+    @FXML
+    private Timer countdownTimer;
+    @FXML
+    private TypingControl typingControl;
+    @FXML
+    private Button restartButton;
+    @FXML
+    private Hyperlink resultsHyperlink;
 
     private Preferences preferences;
     private final SessionResultsRepository resultsService = SessionResultsRepository.getPreferredInstance();
@@ -42,13 +48,15 @@ public class MainController {
     }
 
     private void setupTimer() {
-        countdownTimer.setOnFinished(() -> {
-            TypingSessionResult result = typingControl.getSessionResult(preferences.getInt(TIMER_LENGTH_KEY, 60));
-            result.setSessionDate(LocalDate.now());
-            resultsService.save(result);
-            System.out.println(result.toString());
+        countdownTimer.setOnFinished((interrupted) -> {
+            if (!interrupted) {
+                TypingSessionResult result = typingControl.getSessionResult(preferences.getInt(TIMER_LENGTH_KEY, 60));
+                result.setSessionDate(LocalDate.now());
+                resultsService.save(result);
+                System.out.println(result.toString());
 
-            showResult(result);
+                showResult(result);
+            }
 
             restartButton.setVisible(false);
             typingControl.reset();
@@ -56,7 +64,7 @@ public class MainController {
     }
 
     public void keyPressed(KeyEvent event) {
-        if (!countdownTimer.isRunning()){
+        if (!countdownTimer.isRunning()) {
             countdownTimer.start();
             restartButton.setVisible(true);
         }
@@ -94,7 +102,7 @@ public class MainController {
 
 
             resultDialog.showAndWait();
-        }catch (IOException e) {
+        } catch (IOException e) {
             ExceptionDialog.show(e, "Unable to load result form");
         }
     }
