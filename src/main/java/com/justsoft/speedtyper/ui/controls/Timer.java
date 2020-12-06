@@ -78,7 +78,7 @@ public class Timer extends VBox {
         if (isPausedProperty.get())
             return;
 
-        if (timeRemainingProperty.get() > 0) {
+        if (timeRemainingProperty.get() > 1) {
             Platform.runLater(() ->
                     timeRemainingProperty.set(timeRemainingProperty.get() - 1)
             );
@@ -93,7 +93,7 @@ public class Timer extends VBox {
         isRunningProperty.set(true);
         isPausedProperty.set(false);
 
-        timerScheduleHandle = timerTaskExecutor.scheduleAtFixedRate(this::timerTick, 0, 1, TimeUnit.SECONDS);
+        timerScheduleHandle = timerTaskExecutor.scheduleAtFixedRate(this::timerTick, 1, 1, TimeUnit.SECONDS);
     }
 
     public void cancel() {
