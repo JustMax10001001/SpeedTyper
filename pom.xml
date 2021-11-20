@@ -10,14 +10,16 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>11.0.1</javafx.version>
+        <javafx.version>17.0.0.1</javafx.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>2.8.9</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -53,7 +55,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <jvm>C:\Program Files\Java\jdk-11.0.8\bin\java</jvm>
+                    <jvm>C:\Program Files\Java\jdk-17.0.1\bin\java</jvm>
                 </configuration>
             </plugin>
             <plugin>
@@ -87,14 +89,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
+                <inherited>true</inherited>
             </plugin>
         </plugins>
     </build>
-
-
 </project>

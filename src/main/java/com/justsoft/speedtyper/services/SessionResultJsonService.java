@@ -6,9 +6,12 @@ import com.google.gson.reflect.TypeToken;
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
+import com.justsoft.speedtyper.util.typeadapters.LocalDateTimeAdapter;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -67,6 +70,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
     private SessionResultJsonService() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
+        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateTimeAdapter());
         this.gson = gsonBuilder.create();
         executeIoInBackground(this::loadSessionResults);
     }
@@ -91,6 +95,10 @@ public class SessionResultJsonService implements SessionResultsRepository {
         }.getType();
         try (FileInputStream stream = new FileInputStream("results.json")) {
             Set<TypingSessionResult> results = gson.fromJson(new InputStreamReader(stream), resultType);
+            if (results == null) {
+                results = new HashSet<>();
+            }
+
             results.forEach(result -> resultMap.put(result.getId(), result));
         } catch (FileNotFoundException e) {
             try {
