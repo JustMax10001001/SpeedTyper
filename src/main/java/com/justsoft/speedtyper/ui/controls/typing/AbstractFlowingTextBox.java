@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controls.typing;
 
 import com.justsoft.speedtyper.ui.controls.Word;
-import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -21,7 +21,7 @@ abstract class AbstractFlowingTextBox extends ScrollPane {
             loader.load();
             this.getStyleClass().setAll("flowing-text-box");
         } catch (IOException e) {
-            ExceptionDialog.show(e, "Unable to load " + controlName + " fxml");
+            ExceptionAlert.show(e, "Unable to load " + controlName + " fxml");
         }
     }
 

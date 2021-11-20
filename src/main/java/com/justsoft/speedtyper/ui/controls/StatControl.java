@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controls;
 
 import com.justsoft.speedtyper.model.SubjectiveStatQuality;
-import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.util.Resources;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -40,7 +40,7 @@ public class StatControl<T> extends VBox {
         try {
             loader.load();
         } catch (IOException e) {
-            ExceptionDialog.show(e, "Unable to load stat fxml");
+            ExceptionAlert.show(e, "Unable to load stat fxml");
         }
     }
 

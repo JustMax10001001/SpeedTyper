@@ -3,7 +3,7 @@ package com.justsoft.speedtyper.ui.controls.typing;
 import com.justsoft.speedtyper.Dictionary;
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.util.Resources;
-import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -42,7 +42,7 @@ public class TypingControl extends HBox {
         try {
             loader.load();
         } catch (IOException e) {
-            ExceptionDialog.show(e, "Unable to load typing_control fxml");
+            ExceptionAlert.show(e, "Unable to load typing_control fxml");
         }
     }
 
@@ -155,7 +155,7 @@ public class TypingControl extends HBox {
         dictionaryPopulateTask.setOnFailed(event -> {
             dictionaryPopulateTask.getException().printStackTrace();
 
-            ExceptionDialog.show(dictionaryPopulateTask.getException(), "Could not load dictionary");
+            ExceptionAlert.show(dictionaryPopulateTask.getException(), "Could not load dictionary");
         });
         final Thread populateThread = new Thread(dictionaryPopulateTask);
         populateThread.setDaemon(false);

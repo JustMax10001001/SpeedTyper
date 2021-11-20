@@ -4,7 +4,7 @@ import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controllers.MainController;
-import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,7 +27,7 @@ public class Main extends Application {
             try {
                 loader = Resources.createLoaderForForm("main_form");
             } catch (Exception e) {
-                ExceptionDialog.show(e, "Unable to load main form");
+                ExceptionAlert.show(e, "Unable to load main form");
                 Platform.exit();
                 return;
             }

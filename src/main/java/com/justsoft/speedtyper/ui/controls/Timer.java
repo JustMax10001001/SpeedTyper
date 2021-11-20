@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.ui.controls;
 
-import com.justsoft.speedtyper.ui.dialogs.ExceptionDialog;
+import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.util.Resources;
 import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
 import javafx.application.Platform;
@@ -48,7 +48,7 @@ public class Timer extends VBox {
         try {
             loader.load();
         } catch (IOException e) {
-            ExceptionDialog.show(e, "Unable to load timer fxml");
+            ExceptionAlert.show(e, "Unable to load timer fxml");
         }
     }
 
