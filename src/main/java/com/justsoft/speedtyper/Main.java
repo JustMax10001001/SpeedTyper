@@ -26,7 +26,7 @@ public class Main extends Application {
             FXMLLoader loader;
             try {
                 loader = Resources.createLoaderForForm("main_form");
-            }catch (Exception e){
+            } catch (Exception e) {
                 ExceptionDialog.show(e, "Unable to load main form");
                 Platform.exit();
                 return;

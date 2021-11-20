@@ -8,6 +8,5 @@
          xmlns:fx="http://javafx.com/fxml/1">
 
     <InputFlowingTextBox fx:id="inputTextBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" HBox.hgrow="ALWAYS"/>
-    <OutputFlowingTextBox fx:id="outputTextBox" maxWidth="1.7976931348623157E308" prefWidth="150.0"
-                          HBox.hgrow="ALWAYS"/>
+    <OutputFlowingTextBox fx:id="outputTextBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" HBox.hgrow="ALWAYS"/>
 </fx:root>

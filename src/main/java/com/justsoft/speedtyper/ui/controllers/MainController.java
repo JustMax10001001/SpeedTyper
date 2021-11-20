@@ -22,6 +22,7 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
 
 
 public class MainController {
+    private final int DEFAULT_TIMER_LENGTH = 60;
 
     @FXML
     private GridPane root;
@@ -50,10 +51,12 @@ public class MainController {
     private void setupTimer() {
         countdownTimer.setOnFinished((interrupted) -> {
             if (!interrupted) {
-                TypingSessionResult result = typingControl.getSessionResult(preferences.getInt(TIMER_LENGTH_KEY, 60));
+                int sessionTime = preferences.getInt(TIMER_LENGTH_KEY, DEFAULT_TIMER_LENGTH);
+
+                TypingSessionResult result = typingControl.getSessionResult(sessionTime);
                 result.setSessionDate(LocalDate.now());
+
                 resultsService.save(result);
-                System.out.println(result.toString());
 
                 showResult(result);
             }
@@ -87,14 +90,18 @@ public class MainController {
         try {
             Dialog<Void> resultDialog = new Dialog<>();
             resultDialog.setTitle("Result");
+
             Bundle params = new Bundle();
             params.set("result_id", result.getId());
-            FXMLLoader loader = Resources.createLoaderForFormWithParameters("typing_result_display_form", params);
+
+            FXMLLoader loader = Resources.createLoaderForForm("typing_result_display_form", params);
             DialogPane dialogPane = resultDialog.getDialogPane();
             dialogPane.setContent(loader.getRoot());
+
             dialogPane.getButtonTypes().add(ButtonType.CLOSE);
             Button closeButton = (Button) dialogPane.lookupButton(ButtonType.CLOSE);
             closeButton.setDefaultButton(false);
+
             dialogPane.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {   // prevent space from closing the result screen
                 if (keyEvent.getCode() == KeyCode.SPACE)
                     keyEvent.consume();
@@ -142,7 +149,7 @@ public class MainController {
     }
 
     private void updateTimer() {
-        countdownTimer.setTimerLength(preferences.getInt(TIMER_LENGTH_KEY, 60));
+        countdownTimer.setTimerLength(preferences.getInt(TIMER_LENGTH_KEY, DEFAULT_TIMER_LENGTH));
     }
 
     public void restartButtonClick() {

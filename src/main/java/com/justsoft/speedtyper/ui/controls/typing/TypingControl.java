@@ -17,7 +17,7 @@ import java.util.LinkedList;
 
 public class TypingControl extends HBox {
 
-    private static final int BUFFERED_WORDS = 12;
+    private static final int BUFFERED_WORDS = 32;
 
     @FXML
     private InputFlowingTextBox inputTextBox;

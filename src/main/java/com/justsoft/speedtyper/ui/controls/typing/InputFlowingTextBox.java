@@ -11,6 +11,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 
 public class InputFlowingTextBox extends AbstractFlowingTextBox {
+    private static final double PREFERRED_WIDTH = 32 * 1024;
 
     @FXML
     private TextFlow inputTextFlowBox;
@@ -24,7 +25,7 @@ public class InputFlowingTextBox extends AbstractFlowingTextBox {
     @FXML
     @Override
     void initialize() {
-        filler.setPrefWidth(Screen.getPrimary().getBounds().getWidth() / 2);
+        filler.setPrefWidth(PREFERRED_WIDTH);
         this.hvalueProperty().bind(inputTextFlowBox.widthProperty());
     }
 
@@ -33,7 +34,6 @@ public class InputFlowingTextBox extends AbstractFlowingTextBox {
         activeWord.setIsEdited(false);
         activeWord = null;
         inputTextFlowBox.getChildren().add(new Word(" "));
-        cleanUpPane();
     }
 
     public void startNextWord() {
@@ -47,17 +47,5 @@ public class InputFlowingTextBox extends AbstractFlowingTextBox {
     void reset() {
         inputTextFlowBox.getChildren().clear();
         activeWord = null;
-    }
-
-    private void cleanUpPane() {
-        Bounds paneBounds = this.localToScene(this.getBoundsInLocal());
-        for (Node n : FXCollections.unmodifiableObservableList(inputTextFlowBox.getChildren())) {
-            Bounds nodeBounds = n.localToScene(n.getBoundsInLocal());
-            if (!paneBounds.intersects(nodeBounds)) {
-                if (n instanceof Text && !((Text) n).textProperty().isNotEmpty().get())
-                    continue;
-                inputTextFlowBox.getChildren().remove(n);
-            }
-        }
     }
 }
