@@ -46,10 +46,10 @@ public class ResultsDisplayController {
     private List<XYChart.Data<LocalDate, Integer>> processEntries(List<TypingSessionResult> source) {
         Map<LocalDate, List<TypingSessionResult>> map = new HashMap<>();
         source.forEach(item -> {
-            if (!map.containsKey(item.getSessionDate())) {
-                map.put(item.getSessionDate(), new ArrayList<>());
+            if (!map.containsKey(item.sessionDate())) {
+                map.put(item.sessionDate(), new ArrayList<>());
             }
-            map.get(item.getSessionDate()).add(item);
+            map.get(item.sessionDate()).add(item);
         });
         List<XYChart.Data<LocalDate, Integer>> outputList = new ArrayList<>();
         map.forEach((date, entryList) -> outputList.add(new XYChart.Data<>(date, (int) Stats.calculateMedian(entryList, TypingSessionResult::getCharsPerMinute))));

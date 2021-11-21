@@ -34,18 +34,19 @@ public class Resources {
     public static FXMLLoader createLoaderForForm(String formName, Bundle parameters) throws IOException {
         FXMLLoader loader = createLoaderForForm(formName);
         loader.load();
-        Object controller = loader.getController();
-        if (!(controller instanceof ControllerWithParameters)) {
+
+        if (loader.getController() instanceof ControllerWithParameters controller) {
+            controller.setParametersAndInitialize(parameters);
+
+            return loader;
+        } else {
             throw new IllegalStateException(
                     String.format(
-                            "Unable to set parameters for controller %s as it does not extend ControllerWithParameters",
-                            controller.getClass().getName()
+                            "Unable to set parameters for form \"%s\" as it does not extend ControllerWithParameters",
+                            formName
                     )
             );
         }
-
-        ((ControllerWithParameters) controller).setParametersAndInitialize(parameters);
-        return loader;
     }
 
     public static Parent loadForm(String formName) throws IOException {

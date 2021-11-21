@@ -15,6 +15,13 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>Jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -35,6 +42,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Marcono1234</groupId>
+            <artifactId>gson-record-type-adapter-factory</artifactId>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 

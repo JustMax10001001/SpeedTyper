@@ -2,11 +2,11 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
-import com.justsoft.speedtyper.ui.dialogs.builders.DialogBuilder;
-import com.justsoft.speedtyper.util.Bundle;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.typing.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
+import com.justsoft.speedtyper.ui.dialogs.builders.DialogBuilder;
+import com.justsoft.speedtyper.util.Bundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -14,10 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
-import static com.justsoft.speedtyper.ui.controllers.PreferencesController.*;
+import static com.justsoft.speedtyper.ui.controllers.PreferencesController.TIMER_LENGTH_KEY;
 
 
 public class MainController {
@@ -52,11 +51,9 @@ public class MainController {
             if (!interrupted) {
                 int sessionTime = preferences.getInt(TIMER_LENGTH_KEY, DEFAULT_TIMER_LENGTH);
 
-                TypingSessionResult result = typingControl.getSessionResult(sessionTime);
-                result.setSessionDate(LocalDate.now());
+                var result = typingControl.getSessionResult(sessionTime);
 
-                resultsService.save(result);
-
+                result = resultsService.save(result);
                 showResult(result);
             }
 
@@ -71,7 +68,7 @@ public class MainController {
             restartButton.setVisible(true);
         }
 
-        if (!event.getText().trim().isEmpty()) {
+        if (!event.getText().isBlank()) {
             char ch = event.getText().charAt(0);
             typingControl.handleCharacter(event.isShiftDown() ? Character.toUpperCase(ch) : ch);
         }
@@ -113,7 +110,7 @@ public class MainController {
 
     private Bundle createResultDialogParams(TypingSessionResult result) {
         Bundle params = new Bundle();
-        params.set("result_id", result.getId());
+        params.set("result_id", result.id());
         return params;
     }
 

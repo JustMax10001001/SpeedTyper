@@ -2,25 +2,26 @@ package com.justsoft.speedtyper.model;
 
 import java.time.LocalDate;
 
-public class TypingSessionResult extends BaseModel {
-
-    private int totalChars;
-    private int totalWords;
-
-    private int mistakenWords;
-    private LocalDate sessionDate;
-
-    private int sessionTimeSeconds;
-
-    public TypingSessionResult() {
+public record TypingSessionResult(
+        int id,
+        int totalChars,
+        int totalWords,
+        int mistakenWords,
+        LocalDate sessionDate,
+        int sessionTimeSeconds
+) implements BaseEntityRecord {
+    public TypingSessionResult(
+            int totalChars,
+            int totalWords,
+            int mistakenWords,
+            LocalDate sessionDate,
+            int sessionTimeSeconds
+    ) {
+        this(0, totalChars, totalWords, mistakenWords, sessionDate, sessionTimeSeconds);
     }
 
-    public TypingSessionResult(int totalChars, int totalWords, int mistakenWords, LocalDate sessionDate, int sessionTimeSeconds) {
-        this.totalChars = totalChars;
-        this.totalWords = totalWords;
-        this.mistakenWords = mistakenWords;
-        this.sessionDate = sessionDate;
-        this.sessionTimeSeconds = sessionTimeSeconds;
+    public TypingSessionResult withId(int id) {
+        return new TypingSessionResult(id, totalChars, totalWords, mistakenWords, sessionDate, sessionTimeSeconds);
     }
 
     public double getWordsPerMinute() {
@@ -29,57 +30,5 @@ public class TypingSessionResult extends BaseModel {
 
     public double getCharsPerMinute() {
         return ((double) totalChars) / sessionTimeSeconds * 60d;
-    }
-
-    public int getSessionTimeSeconds() {
-        return sessionTimeSeconds;
-    }
-
-    public void setSessionTimeSeconds(int sessionTimeSeconds) {
-        this.sessionTimeSeconds = sessionTimeSeconds;
-    }
-
-    public int getTotalChars() {
-        return totalChars;
-    }
-
-    public void setTotalChars(int totalChars) {
-        this.totalChars = totalChars;
-    }
-
-    public int getTotalWords() {
-        return totalWords;
-    }
-
-    public void setTotalWords(int totalWords) {
-        this.totalWords = totalWords;
-    }
-
-    public int getMistakenWords() {
-        return mistakenWords;
-    }
-
-    public void setMistakenWords(int mistakenWords) {
-        this.mistakenWords = mistakenWords;
-    }
-
-    public LocalDate getSessionDate() {
-        return sessionDate;
-    }
-
-    public void setSessionDate(LocalDate sessionDate) {
-        this.sessionDate = sessionDate;
-    }
-
-    @Override
-    public String toString() {
-        return "TypingSessionResult{" +
-                "id=" + getId() +
-                ", totalChars=" + totalChars +
-                ", totalWords=" + totalWords +
-                ", mistakenWords=" + mistakenWords +
-                ", sessionDate=" + sessionDate +
-                ", sessionTimeSeconds=" + sessionTimeSeconds +
-                '}';
     }
 }

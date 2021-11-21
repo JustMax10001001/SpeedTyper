@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.services;
 
-import com.justsoft.speedtyper.model.BaseModel;
+import com.justsoft.speedtyper.model.BaseEntityRecord;
 import com.justsoft.speedtyper.repositories.CRUDRepository;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AbstractBaseModelMapService<T extends BaseModel> implements CRUDRepository<Integer, T> {
+public class AbstractBaseModelMapService<T extends BaseEntityRecord> implements CRUDRepository<Integer, T> {
 
     private final Map<Integer, T> map = new HashMap<>();
 
@@ -19,14 +19,12 @@ public class AbstractBaseModelMapService<T extends BaseModel> implements CRUDRep
 
     @Override
     public T save(T value) {
-        if (value.getId() == null){
-            int maxKey = 0;
-            for (int key : map.keySet()){
-                maxKey = Math.max(maxKey, key);
-            }
-            value.setId(maxKey + 1);
+        if (value.id() == 0){
+            int maxKey = map.keySet().stream().mapToInt(i->i).max().orElse(1);
+
+            value = (T) value.withId(maxKey + 1);
         }
-        map.put(value.getId(), value);
+        map.put(value.id(), value);
         return value;
     }
 
@@ -36,8 +34,8 @@ public class AbstractBaseModelMapService<T extends BaseModel> implements CRUDRep
     }
 
     @Override
-    public T delete(BaseModel value) {
-        return map.remove(value.getId());
+    public T delete(BaseEntityRecord value) {
+        return map.remove(value.id());
     }
 
     @Override

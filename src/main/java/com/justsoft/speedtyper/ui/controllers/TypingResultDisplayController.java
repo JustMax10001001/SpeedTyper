@@ -71,7 +71,7 @@ public class TypingResultDisplayController extends ControllerWithParameters {
 
         private final ObjectBinding<Integer> mistakes = Bindings.createObjectBinding(() -> {
             if (resultProperty.get() != null)
-                return resultProperty.get().getMistakenWords();
+                return resultProperty.get().mistakenWords();
             return 0;
         }, resultProperty);
 

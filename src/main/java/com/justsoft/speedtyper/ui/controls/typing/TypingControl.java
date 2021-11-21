@@ -2,8 +2,8 @@ package com.justsoft.speedtyper.ui.controls.typing;
 
 import com.justsoft.speedtyper.Dictionary;
 import com.justsoft.speedtyper.model.TypingSessionResult;
-import com.justsoft.speedtyper.util.Resources;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
+import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class TypingControl extends HBox {
@@ -132,12 +133,12 @@ public class TypingControl extends HBox {
     }
 
     public TypingSessionResult getSessionResult(int sessionTime) {
-        TypingSessionResult result = new TypingSessionResult();
-        result.setMistakenWords(mistakesCount.get());
-        result.setTotalChars(characterCount.get());
-        result.setTotalWords(correctWordCount.get());
-        result.setSessionTimeSeconds(sessionTime);
-        return result;
+        return new TypingSessionResult(
+                characterCount.get(),
+                correctWordCount.get(),
+                mistakesCount.get(),
+                LocalDate.now(),
+                sessionTime);
     }
 
     private void appendRandomWordToBuffer() {

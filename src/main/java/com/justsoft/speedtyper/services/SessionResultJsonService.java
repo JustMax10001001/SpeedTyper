@@ -7,13 +7,16 @@ import com.justsoft.speedtyper.model.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
 import com.justsoft.speedtyper.util.typeadapters.LocalDateTimeAdapter;
+import marcono1234.gson.recordadapter.RecordTypeAdapterFactory;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class SessionResultJsonService implements SessionResultsRepository {
 
@@ -29,14 +32,11 @@ public class SessionResultJsonService implements SessionResultsRepository {
     @Override
     public TypingSessionResult save(TypingSessionResult value) {
         checkForIoAndWait();
-        if (value.getId() == null) {
-            int maxKey = 0;
-            for (int key : resultMap.keySet()) {
-                maxKey = Math.max(maxKey, key);
-            }
-            value.setId(maxKey + 1);
+        if (value.id() == 0) {
+            int maxKey = resultMap.keySet().stream().max(Comparator.comparingInt(i -> i)).orElse(1);
+            value = value.withId(maxKey + 1);
         }
-        resultMap.put(value.getId(), value);
+        resultMap.put(value.id(), value);
         executeIoInBackground(this::saveSessionResults);
         return value;
     }
@@ -50,7 +50,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
     @Override
     public TypingSessionResult delete(TypingSessionResult value) {
         checkForIoAndWait();
-        TypingSessionResult removed = resultMap.remove(value.getId());
+        TypingSessionResult removed = resultMap.remove(value.id());
         executeIoInBackground(this::saveSessionResults);
         return removed;
     }
@@ -71,6 +71,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateTimeAdapter());
+        gsonBuilder.registerTypeAdapterFactory(RecordTypeAdapterFactory.DEFAULT);
         this.gson = gsonBuilder.create();
         executeIoInBackground(this::loadSessionResults);
     }
@@ -99,7 +100,7 @@ public class SessionResultJsonService implements SessionResultsRepository {
                 results = new HashSet<>();
             }
 
-            results.forEach(result -> resultMap.put(result.getId(), result));
+            results.forEach(result -> resultMap.put(result.id(), result));
         } catch (FileNotFoundException e) {
             try {
                 new File("results.json").createNewFile();
