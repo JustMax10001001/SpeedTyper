@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.*;
 
+import static com.justsoft.speedtyper.util.Objects.notNull;
+
 public class SessionResultJsonService implements SessionResultsRepository {
 
     private final Map<Integer, TypingSessionResult> resultMap = new ConcurrentHashMap<>();
@@ -89,13 +91,12 @@ public class SessionResultJsonService implements SessionResultsRepository {
     private Future<?> backgroundExecutorFuture = null;
 
     private void loadSessionResults() {
-        Type resultType = new TypeToken<Set<TypingSessionResult>>() {
-        }.getType();
+        Type resultType = new TypeToken<Set<TypingSessionResult>>(){}.getType();
         try (FileInputStream stream = new FileInputStream("results.json")) {
-            Set<TypingSessionResult> results = gson.fromJson(new InputStreamReader(stream), resultType);
-            if (results == null) {
-                results = new HashSet<>();
-            }
+            Set<TypingSessionResult> results = notNull(
+                    gson.fromJson(new InputStreamReader(stream), resultType),
+                    new HashSet<>()
+            );
 
             results.forEach(result -> resultMap.put(result.id(), result));
         } catch (FileNotFoundException e) {
