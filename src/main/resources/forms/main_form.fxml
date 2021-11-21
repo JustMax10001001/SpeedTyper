@@ -12,11 +12,11 @@
             minHeight="400">
     <top>
         <MenuBar>
-            <Menu text="File">
+            <Menu text="_File">
                 <MenuItem onAction="#resultsHyperlinkClick"
-                          text="Results"/>
+                          text="_Results"/>
 
-                <MenuItem text="Preferences"
+                <MenuItem text="_Preferences"
                           onAction="#preferencesHyperlinkClick"/>
             </Menu>
         </MenuBar>

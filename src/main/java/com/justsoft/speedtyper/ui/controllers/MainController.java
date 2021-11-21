@@ -21,8 +21,8 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.TIMER
 public class MainController {
     private final int DEFAULT_TIMER_LENGTH = 60;
 
-    private final String PREFERENCES_TITLE = "Preferences";
-    private final String RESULTS_TITLE = "Results";
+    private static final String PREFERENCES_TITLE = "Preferences";
+    private static final String RESULTS_TITLE = "Results";
 
     private final ContextMenu mainContextMenu = new ContextMenu();
 
@@ -53,10 +53,12 @@ public class MainController {
     }
 
     private void initContextMenu() {
-        var preferencesItem = new MenuItem(PREFERENCES_TITLE);
+        var preferencesItem = new MenuItem("_" + PREFERENCES_TITLE);
+        preferencesItem.setMnemonicParsing(true);
         preferencesItem.setOnAction(e -> showPreferencesDialog());
 
-        var resultItem = new MenuItem(RESULTS_TITLE);
+        var resultItem = new MenuItem("_" + RESULTS_TITLE);
+        resultItem.setMnemonicParsing(true);
         resultItem.setOnAction(e -> showResultsDialog());
 
         mainContextMenu.getItems().addAll(preferencesItem, resultItem);
@@ -80,15 +82,20 @@ public class MainController {
     }
 
     public void keyPressed(KeyEvent event) {
+        if (event.getText().isBlank() || event.isAltDown()) {
+            return;
+        }
+
         if (!countdownTimer.isRunning()) {
             countdownTimer.start();
             restartButton.setVisible(true);
         }
 
-        if (!event.getText().isBlank()) {
+        if (!event.getText().isBlank() && !event.isAltDown() && !event.isControlDown()) {
             char ch = event.getText().charAt(0);
             typingControl.handleCharacter(event.isShiftDown() ? Character.toUpperCase(ch) : ch);
         }
+
         if (event.getCode() == KeyCode.SPACE) {
             typingControl.handleSpace();
         }
