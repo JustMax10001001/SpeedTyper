@@ -6,12 +6,15 @@ import javafx.css.PseudoClass;
 import javafx.scene.text.Text;
 
 public class Word extends Text {
-
     private static final PseudoClass IS_EDITED_PSEUDO_CLASS = PseudoClass.getPseudoClass("is-edited");
     private static final PseudoClass INPUT_PSEUDO_CLASS = PseudoClass.getPseudoClass("input");
     private static final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
 
-    public Word(){
+    private final BooleanProperty isEdited = new SimpleBooleanProperty(false);
+    private final BooleanProperty isInput = new SimpleBooleanProperty(false);
+    private final BooleanProperty isError = new SimpleBooleanProperty(false);
+
+    public Word() {
         super();
         initialize();
     }
@@ -55,8 +58,4 @@ public class Word extends Text {
     public void setIsError(boolean isError) {
         this.isError.set(isError);
     }
-
-    private final BooleanProperty isEdited = new SimpleBooleanProperty(false);
-    private final BooleanProperty isInput = new SimpleBooleanProperty(false);
-    private final BooleanProperty isError = new SimpleBooleanProperty(false);
 }
