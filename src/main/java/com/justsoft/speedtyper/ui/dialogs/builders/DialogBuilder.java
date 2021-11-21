@@ -51,7 +51,7 @@ public class DialogBuilder<TResult> {
 
         if (params == null) {
             loader = Resources.createLoaderForForm(formResource);
-            loader.load();;
+            loader.load();
         } else {
             loader = Resources.createLoaderForForm(formResource, params);
         }

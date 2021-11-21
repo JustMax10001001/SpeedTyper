@@ -18,7 +18,6 @@ import java.util.prefs.Preferences;
 
 import static com.justsoft.speedtyper.ui.controllers.PreferencesController.TIMER_LENGTH_KEY;
 
-
 public class MainController {
     private final int DEFAULT_TIMER_LENGTH = 60;
 
@@ -118,12 +117,11 @@ public class MainController {
         preferencesHyperlink.setVisited(false);
 
         try {
-            new DialogBuilder<Void>()
-                    .withTitle("Preferences")
-                    .withFormResource("preferences_form")
-                    .withButtons(ButtonType.CLOSE)
-                    .build()
-                    .showAndWait();
+            new DialogBuilder<Void>().withTitle("Preferences")
+                                     .withFormResource("preferences_form")
+                                     .withButtons(ButtonType.CLOSE)
+                                     .build()
+                                     .showAndWait();
 
             updateTimer();
         } catch (IOException e) {
@@ -135,12 +133,11 @@ public class MainController {
         resultsHyperlink.setVisited(false);
 
         try {
-            new DialogBuilder<Void>()
-                    .withTitle("Results")
-                    .withFormResource("results_display_form")
-                    .withButtons(ButtonType.CLOSE)
-                    .build()
-                    .showAndWait();
+            new DialogBuilder<Void>().withTitle("Results")
+                                     .withFormResource("results_display_form")
+                                     .withButtons(ButtonType.CLOSE)
+                                     .build()
+                                     .showAndWait();
         } catch (IOException e) {
             ExceptionAlert.show(e, "Unable to load results form");
         }

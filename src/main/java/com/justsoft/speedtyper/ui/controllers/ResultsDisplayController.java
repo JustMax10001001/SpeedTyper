@@ -15,8 +15,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.DatePicker;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,40 +42,42 @@ public class ResultsDisplayController {
     }
 
     private List<XYChart.Data<LocalDate, Integer>> processEntries(List<TypingSessionResult> source) {
-        Map<LocalDate, List<TypingSessionResult>> map = new HashMap<>();
-        source.forEach(item -> {
-            if (!map.containsKey(item.sessionDate())) {
-                map.put(item.sessionDate(), new ArrayList<>());
-            }
-            map.get(item.sessionDate()).add(item);
-        });
-        List<XYChart.Data<LocalDate, Integer>> outputList = new ArrayList<>();
-        map.forEach((date, entryList) -> outputList.add(new XYChart.Data<>(date, (int) Stats.calculateMedian(entryList, TypingSessionResult::getCharsPerMinute))));
-        return outputList;
+        return source.stream()
+                     .collect(Collectors.groupingBy(TypingSessionResult::sessionDate))
+                     .entrySet()
+                     .stream()
+                     .map(this::mapToDataPoint)
+                     .collect(Collectors.toList());
+    }
+
+    private XYChart.Data<LocalDate, Integer> mapToDataPoint(Map.Entry<LocalDate, List<TypingSessionResult>> entry) {
+        return new XYChart.Data<>(entry.getKey(), calculateMedian(entry.getValue()));
+    }
+
+    private int calculateMedian(List<TypingSessionResult> resultList) {
+        return (int) Stats.calculateMedian(resultList, TypingSessionResult::getCharsPerMinute);
     }
 
     private static class ViewModel {
-
         private final ObjectProperty<LocalDate> dateSinceProperty = new SimpleObjectProperty<>(LocalDate.of(1970, 1, 1));
         private final ObjectProperty<LocalDate> dateUpToProperty = new SimpleObjectProperty<>(LocalDate.now());
 
         private final ObservableList<XYChart.Data<LocalDate, Integer>> resultSourceList = FXCollections.observableArrayList();
 
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> filteredResultsCpm = Bindings.createObjectBinding(() -> {
-            ObservableList<XYChart.Data<String, Integer>> list = FXCollections.observableArrayList();
             final LocalDate dateSince = dateSinceProperty.get();
             final LocalDate dateUpTo = dateUpToProperty.get();
-            list.addAll(
-                    resultSourceList
-                            .stream()
-                            .filter(item ->
-                                    item.getXValue().isAfter(dateSince) && (item.getXValue().isBefore(dateUpTo) || item.getXValue().isEqual(dateUpTo))
-                            )
-                            .map(item -> new XYChart.Data<>(item.getXValue().toString(), item.getYValue()))
-                            .collect(Collectors.toList())
 
+            return FXCollections.observableArrayList(
+                    resultSourceList.stream()
+                                    .filter(data -> isBetweenIncludingEnd(data.getXValue(), dateSince, dateUpTo))
+                                    .map(item -> new XYChart.Data<>(item.getXValue().toString(), item.getYValue()))
+                                    .collect(Collectors.toList())
             );
-            return list;
         }, dateSinceProperty, dateUpToProperty, resultSourceList);
+
+        private boolean isBetweenIncludingEnd(LocalDate toCheck, LocalDate notBefore, LocalDate notAfter) {
+            return toCheck.isAfter(notBefore) && (toCheck.isBefore(notAfter) || toCheck.isEqual(notAfter));
+        }
     }
 }
