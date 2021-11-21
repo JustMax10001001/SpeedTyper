@@ -13,14 +13,11 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class SessionResultJsonService implements SessionResultsRepository {
 
-    private final Map<Integer, TypingSessionResult> resultMap = new HashMap<>();
+    private final Map<Integer, TypingSessionResult> resultMap = new ConcurrentHashMap<>();
     private final Gson gson;
 
     @Override
@@ -103,7 +100,9 @@ public class SessionResultJsonService implements SessionResultsRepository {
             results.forEach(result -> resultMap.put(result.id(), result));
         } catch (FileNotFoundException e) {
             try {
-                new File("results.json").createNewFile();
+                if (!new File("results.json").createNewFile()) {
+                    throw new IOException("Create file returned false!");
+                }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
