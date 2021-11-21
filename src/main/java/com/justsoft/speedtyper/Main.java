@@ -37,7 +37,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Typing speed test");
 
-        Scene scene = new Scene(root, 400, -1);
+        Scene scene = new Scene(root, -1, -1);
         primaryStage.setScene(scene);
 
         primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, controller::keyPressed);

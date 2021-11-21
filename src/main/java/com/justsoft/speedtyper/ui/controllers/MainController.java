@@ -82,7 +82,7 @@ public class MainController {
     }
 
     public void keyPressed(KeyEvent event) {
-        if (event.getText().isBlank() || event.isAltDown()) {
+        if ((event.getText().isBlank() || event.isShortcutDown() || event.isAltDown()) && event.getCode() != KeyCode.BACK_SPACE) {
             return;
         }
 

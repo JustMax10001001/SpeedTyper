@@ -9,15 +9,20 @@
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.justsoft.speedtyper.ui.controllers.MainController"
-            minHeight="400">
+            minHeight="400"
+            minWidth="600">
     <top>
         <MenuBar>
             <Menu text="_File">
                 <MenuItem onAction="#resultsHyperlinkClick"
-                          text="_Results"/>
+                          text="_Results">
+                    <accelerator>Ctrl + R</accelerator>
+                </MenuItem>
 
                 <MenuItem text="_Preferences"
-                          onAction="#preferencesHyperlinkClick"/>
+                          onAction="#preferencesHyperlinkClick">
+                    <accelerator>Ctrl + P</accelerator>
+                </MenuItem>
             </Menu>
         </MenuBar>
     </top>
