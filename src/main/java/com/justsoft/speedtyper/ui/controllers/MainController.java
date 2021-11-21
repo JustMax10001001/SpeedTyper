@@ -21,6 +21,11 @@ import static com.justsoft.speedtyper.ui.controllers.PreferencesController.TIMER
 public class MainController {
     private final int DEFAULT_TIMER_LENGTH = 60;
 
+    private final String PREFERENCES_TITLE = "Preferences";
+    private final String RESULTS_TITLE = "Results";
+
+    private final ContextMenu mainContextMenu = new ContextMenu();
+
     @FXML
     private GridPane root;
     @FXML
@@ -41,8 +46,21 @@ public class MainController {
     private void initialize() {
         preferences = Preferences.userRoot().node("com/justsoft/speedtyper/preferences");
 
+        initContextMenu();
+
         setupTimer();
         updateTimer();
+    }
+
+    private void initContextMenu() {
+        var preferencesItem = new MenuItem(PREFERENCES_TITLE);
+        preferencesItem.setOnAction(e -> showPreferencesDialog());
+
+        var resultItem = new MenuItem(RESULTS_TITLE);
+        resultItem.setOnAction(e -> showResultsDialog());
+
+        mainContextMenu.getItems().addAll(preferencesItem, resultItem);
+        root.setOnContextMenuRequested(event -> mainContextMenu.show(root, event.getScreenX(), event.getScreenY()));
     }
 
     private void setupTimer() {
@@ -116,6 +134,10 @@ public class MainController {
     public void preferencesHyperlinkClick() {
         preferencesHyperlink.setVisited(false);
 
+        showPreferencesDialog();
+    }
+
+    private void showPreferencesDialog() {
         try {
             new DialogBuilder<Void>().withTitle("Preferences")
                                      .withFormResource("preferences_form")
@@ -132,6 +154,10 @@ public class MainController {
     public void resultsHyperlinkClick() {
         resultsHyperlink.setVisited(false);
 
+        showResultsDialog();
+    }
+
+    private void showResultsDialog() {
         try {
             new DialogBuilder<Void>().withTitle("Results")
                                      .withFormResource("results_display_form")

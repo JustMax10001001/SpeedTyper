@@ -31,8 +31,8 @@ public class StatControl<T> extends VBox {
 
     private final ObjectProperty<T> statValueProperty = new SimpleObjectProperty<>();
     private final StringProperty statNameProperty = new SimpleStringProperty("name");
-    private final ObjectProperty<SubjectiveStatQuality> subjectiveStatQualityProperty
-            = new SimpleObjectProperty<>(SubjectiveStatQuality.NONE);
+    private final ObjectProperty<SubjectiveStatQuality> subjectiveStatQualityProperty =
+            new SimpleObjectProperty<>(SubjectiveStatQuality.NONE);
 
     public StatControl() {
         FXMLLoader loader = Resources.createLoaderForControl("stat_control");
