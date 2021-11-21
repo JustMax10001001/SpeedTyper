@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import static com.justsoft.speedtyper.util.Loops.repeat;
+
 public class TypingControl extends HBox {
 
     private static final int BUFFERED_WORDS = 32;
@@ -164,9 +166,7 @@ public class TypingControl extends HBox {
     }
 
     private void fillWordBuffer() {
-        for (int i = 0; i < BUFFERED_WORDS; i++) {
-            appendRandomWordToBuffer();
-        }
+        repeat(BUFFERED_WORDS, this::appendRandomWordToBuffer);
     }
 
     private void postInitialize() {
