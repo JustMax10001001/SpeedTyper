@@ -1,7 +1,8 @@
 package com.justsoft.speedtyper.services;
 
-import com.justsoft.speedtyper.model.BaseEntityRecord;
+import com.justsoft.speedtyper.model.entities.BaseEntityRecord;
 import com.justsoft.speedtyper.repositories.CRUDRepository;
+import com.justsoft.speedtyper.util.Objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,12 +18,13 @@ public class AbstractBaseModelMapService<T extends BaseEntityRecord> implements 
         return new ArrayList<>(map.values());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T save(T value) {
         if (value.id() == 0){
             int maxKey = map.keySet().stream().mapToInt(i->i).max().orElse(1);
 
-            value = (T) value.withId(maxKey + 1);
+            value = Objects.notNull((T) value.withId(maxKey + 1));
         }
         map.put(value.id(), value);
         return value;

@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controls.typing;
 
 import com.justsoft.speedtyper.Dictionary;
-import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingSessionResult;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Platform;

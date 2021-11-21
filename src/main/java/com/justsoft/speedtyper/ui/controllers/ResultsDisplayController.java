@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.ui.controllers;
 
-import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;

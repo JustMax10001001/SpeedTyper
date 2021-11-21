@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+import static com.justsoft.speedtyper.util.Objects.notNull;
+
 public class StatControl<T> extends VBox {
 
     private static final PseudoClass IS_GOOD_RESULT = PseudoClass.getPseudoClass("good");
@@ -47,37 +49,33 @@ public class StatControl<T> extends VBox {
     @FXML
     private void initialize() {
         statNameLabel.textProperty().bind(statNameProperty);
-        statValueLabel.textProperty().bind(
-                Bindings.createStringBinding(() -> {
-                    if (statValueProperty.get() == null)
-                        return "null";
-                    else
-                        return statValueProperty.get().toString();
-                }, statValueProperty)
-        );
+        statValueLabel.textProperty()
+                      .bind(Bindings.createStringBinding(
+                              () -> notNull(statValueProperty.get(), "null").toString(),
+                              statValueProperty)
+                      );
 
         subjectiveStatQualityProperty.addListener((observableValue, beforeValue, afterValue) -> {
-            switch (beforeValue){
-                case BAD:
-                    statValueLabel.pseudoClassStateChanged(IS_BAD_RESULT, false);
-                    break;
-                case NORMAL:
-                    statValueLabel.pseudoClassStateChanged(IS_NORMAL_RESULT, false);
-                    break;
-                case GOOD:
-                    statValueLabel.pseudoClassStateChanged(IS_GOOD_RESULT, false);
-                    break;
+            var oldClass = switch (beforeValue) {
+                case BAD -> IS_BAD_RESULT;
+                case NORMAL -> IS_NORMAL_RESULT;
+                case GOOD -> IS_GOOD_RESULT;
+                case NONE -> null;
+            };
+
+            var newClass = switch (afterValue) {
+                case BAD -> IS_BAD_RESULT;
+                case NORMAL -> IS_NORMAL_RESULT;
+                case GOOD -> IS_GOOD_RESULT;
+                case NONE -> null;
+            };
+
+            if (oldClass != null) {
+                statValueLabel.pseudoClassStateChanged(oldClass, false);
             }
-            switch (afterValue) {
-                case BAD:
-                    statValueLabel.pseudoClassStateChanged(IS_BAD_RESULT, true);
-                    break;
-                case NORMAL:
-                    statValueLabel.pseudoClassStateChanged(IS_NORMAL_RESULT, true);
-                    break;
-                case GOOD:
-                    statValueLabel.pseudoClassStateChanged(IS_GOOD_RESULT, true);
-                    break;
+
+            if (newClass != null) {
+                statValueLabel.pseudoClassStateChanged(newClass, true);
             }
         });
     }

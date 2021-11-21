@@ -3,7 +3,7 @@ package com.justsoft.speedtyper.services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.util.concurrent.DaemonThreadFactory;
 import com.justsoft.speedtyper.util.typeadapters.LocalDateTimeAdapter;

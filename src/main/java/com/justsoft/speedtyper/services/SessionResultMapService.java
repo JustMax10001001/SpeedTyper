@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.services;
 
-import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 
 public class SessionResultMapService extends AbstractBaseModelMapService<TypingSessionResult> implements SessionResultsRepository {

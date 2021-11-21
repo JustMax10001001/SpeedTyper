@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper;
 
-import com.justsoft.speedtyper.model.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingSessionResult;
 import com.justsoft.speedtyper.repositories.SessionResultsRepository;
 import com.justsoft.speedtyper.services.SessionResultMapService;
 import com.justsoft.speedtyper.ui.controllers.MainController;

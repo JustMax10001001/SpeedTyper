@@ -1,4 +1,4 @@
-package com.justsoft.speedtyper.model;
+package com.justsoft.speedtyper.model.entities;
 
 public interface BaseEntityRecord {
     int id();

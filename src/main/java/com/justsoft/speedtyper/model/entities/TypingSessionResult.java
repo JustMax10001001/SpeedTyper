@@ -1,4 +1,4 @@
-package com.justsoft.speedtyper.model;
+package com.justsoft.speedtyper.model.entities;
 
 import java.time.LocalDate;
 
