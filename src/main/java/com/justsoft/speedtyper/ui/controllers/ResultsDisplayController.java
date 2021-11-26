@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.ResultRepository;
 import com.justsoft.speedtyper.services.prefs.PreferenceService;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class ResultsDisplayController {
 
     private final ViewModel viewModel = new ViewModel();
-    private final TypingResultsRepository resultsRepository;
+    private final ResultRepository resultRepository;
     private final PreferenceService preferences;
 
     @FXML
@@ -35,7 +35,7 @@ public class ResultsDisplayController {
     private LineChart<String, Integer> cpmChart;
 
     public ResultsDisplayController() {
-        this.resultsRepository = TypingResultsRepository.getInstance();
+        this.resultRepository = ResultRepository.getInstance();
         this.preferences = PreferenceService.getInstance();
     }
 
@@ -50,7 +50,7 @@ public class ResultsDisplayController {
         this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateSinceProperty);
         this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateUpToProperty);
 
-        this.viewModel.statsList.addAll(processEntries(this.resultsRepository.getAll()));
+        this.viewModel.statsList.addAll(processEntries(this.resultRepository.getAll()));
 
         addChart("Median", this.viewModel.medianChartDataProperty);
         addChart("Average", this.viewModel.averageChartDataProperty);
@@ -82,15 +82,15 @@ public class ResultsDisplayController {
     }
 
     private int calculateMedian(List<TypingResult> resultList) {
-        return (int) Stats.calculateMedian(resultList, TypingResult::getCharsPerMinute);
+        return (int) Stats.calculateMedian(resultList, TypingResult::charsPerMinute);
     }
 
     private int calculateAverage(List<TypingResult> resultList) {
-        return (int) resultList.stream().mapToDouble(TypingResult::getCharsPerMinute).average().orElse(0);
+        return (int) resultList.stream().mapToDouble(TypingResult::charsPerMinute).average().orElse(0);
     }
 
     private int calculateMax(List<TypingResult> resultList) {
-        return (int) resultList.stream().mapToDouble(TypingResult::getCharsPerMinute).max().orElse(0);
+        return (int) resultList.stream().mapToDouble(TypingResult::charsPerMinute).max().orElse(0);
     }
 
     private static class ViewModel {

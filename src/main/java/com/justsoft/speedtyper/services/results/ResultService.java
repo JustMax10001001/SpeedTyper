@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.services.results;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.ResultRepository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface ResultService {
 
     TypingResult getResultById(int id);
 
-    ResultService instance = new ResultServiceImpl(TypingResultsRepository.getInstance());
+    ResultService instance = new ResultServiceImpl(ResultRepository.getInstance());
 
     static ResultService getInstance() {
         return instance;

@@ -24,11 +24,11 @@ public record TypingResult(
         return new TypingResult(id, this.totalChars, this.totalWords, this.mistakenWords, this.sessionDate, this.sessionTimeSeconds);
     }
 
-    public double getWordsPerMinute() {
+    public double wordsPerMinute() {
         return ((double) this.totalWords) / this.sessionTimeSeconds * 60d;
     }
 
-    public double getCharsPerMinute() {
+    public double charsPerMinute() {
         return ((double) this.totalChars) / this.sessionTimeSeconds * 60d;
     }
 }

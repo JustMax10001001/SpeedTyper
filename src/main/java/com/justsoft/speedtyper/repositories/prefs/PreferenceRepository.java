@@ -8,10 +8,6 @@ public interface PreferenceRepository {
 
     void setInt(String key, int value);
 
-    String getString(String key);
-
-    void setString(String key, String value);
-
     LocalDate getDate(String key);
 
     void setDate(String key, LocalDate date);

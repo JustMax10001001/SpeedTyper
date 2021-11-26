@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 import static com.justsoft.speedtyper.util.Objects.notNull;
 
-class TypingResultsRepositoryImpl implements TypingResultsRepository {
+class ResultsRepositoryImpl implements ResultRepository {
     private final String RESULT_FILE = "results.json";
 
     private final Gson gson;
@@ -28,7 +28,7 @@ class TypingResultsRepositoryImpl implements TypingResultsRepository {
     private final Object cacheAccessMutex = new Object();
     private final ExecutorService backgroundIoExecutor = Executors.newSingleThreadExecutor(new DaemonThreadFactory());
 
-    public TypingResultsRepositoryImpl() {
+    public ResultsRepositoryImpl() {
         this.gson = createGson();
 
         submitIo(this::prepareResultCache);

@@ -5,10 +5,10 @@ import com.justsoft.speedtyper.model.entities.TypingResult;
 import java.time.LocalDate;
 import java.util.*;
 
-class MockResultsRepository implements TypingResultsRepository {
+class MockResultRepository implements ResultRepository {
     private final Map<Integer, TypingResult> resultMap = Collections.synchronizedMap(new HashMap<>());
 
-    public MockResultsRepository() {
+    public MockResultRepository() {
         Arrays.stream(new TypingResult[]{
                 new TypingResult(1, 240, 40, 2, LocalDate.of(2020, 2, 5), 60),
                 new TypingResult(2, 200, 30, 5, LocalDate.of(2020, 2, 7), 60),

@@ -2,15 +2,15 @@ package com.justsoft.speedtyper.repositories;
 
 import java.util.List;
 
-public interface CRUDRepository<ID, T> {
+public interface CRUDRepository<K, V> {
 
-    List<T> getAll();
+    List<V> getAll();
 
-    T save(T value);
+    V save(V value);
 
-    T getById(ID id);
+    V getById(K id);
 
-    T delete(T value);
+    V delete(V value);
 
-    T deleteById(ID id);
+    V deleteById(K id);
 }

@@ -2,7 +2,7 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.SubjectiveStatQuality;
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.ResultRepository;
 import com.justsoft.speedtyper.ui.controls.StatControl;
 import com.justsoft.speedtyper.util.Bundle;
 import javafx.beans.binding.Bindings;
@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 public class TypingResultDisplayController extends ControllerWithParameters {
 
     private final ViewModel viewModel = new ViewModel();
-    private final TypingResultsRepository resultsRepository = TypingResultsRepository.getInstance();
+    private final ResultRepository resultRepository = ResultRepository.getInstance();
 
     @FXML private StatControl<Double> wordsPerMinuteStat;
     @FXML private StatControl<Double> charsPerMinuteStat;
@@ -22,7 +22,7 @@ public class TypingResultDisplayController extends ControllerWithParameters {
     @Override
     void initialize(Bundle parameters) {
         int resultId = parameters.getInt("result_id");
-        TypingResult result = this.resultsRepository.getById(resultId);
+        TypingResult result = this.resultRepository.getById(resultId);
         if (result == null)
             throw new IllegalArgumentException("There are no results with id = " + resultId + " in repository");
 
@@ -47,13 +47,13 @@ public class TypingResultDisplayController extends ControllerWithParameters {
 
         private final ObjectBinding<Double> wordsPerMinute = Bindings.createObjectBinding(() -> {
             if (this.resultProperty.get() != null)
-                return round(this.resultProperty.get().getWordsPerMinute(), 1);
+                return round(this.resultProperty.get().wordsPerMinute(), 1);
             return 0d;
         }, this.resultProperty);
 
         private final ObjectBinding<Double> charsPerMinute = Bindings.createObjectBinding(() -> {
             if (this.resultProperty.get() != null)
-                return round(this.resultProperty.get().getCharsPerMinute(), 1);
+                return round(this.resultProperty.get().charsPerMinute(), 1);
             return 0d;
         }, this.resultProperty);
 
@@ -87,7 +87,7 @@ public class TypingResultDisplayController extends ControllerWithParameters {
             return SubjectiveStatQuality.NONE;
         }, this.mistakes);
 
-        private double round(double value, int decimalPlaces) {
+        private static double round(double value, int decimalPlaces) {
             double factor = Math.pow(10, decimalPlaces);
             return ((int) (value * factor)) / factor;
         }

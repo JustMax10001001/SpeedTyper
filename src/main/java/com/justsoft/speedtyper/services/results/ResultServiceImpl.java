@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.services.results;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.ResultRepository;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -10,27 +10,27 @@ import java.util.Random;
 class ResultServiceImpl implements ResultService {
     private final Random idGenerator = new SecureRandom();
 
-    private final TypingResultsRepository resultsRepository;
+    private final ResultRepository resultRepository;
 
-    public ResultServiceImpl(TypingResultsRepository resultsRepository) {
-        this.resultsRepository = resultsRepository;
+    public ResultServiceImpl(ResultRepository resultRepository) {
+        this.resultRepository = resultRepository;
     }
 
     @Override
     public List<TypingResult> getAllResults() {
-        return this.resultsRepository.getAll();
+        return this.resultRepository.getAll();
     }
 
     @Override
     public TypingResult saveResult(TypingResult result) {
         result = ensureId(result);
 
-        return this.resultsRepository.save(result);
+        return this.resultRepository.save(result);
     }
 
     @Override
     public TypingResult getResultById(int id) {
-        return this.resultsRepository.getById(id);
+        return this.resultRepository.getById(id);
     }
 
     private TypingResult ensureId(TypingResult result) {

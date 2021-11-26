@@ -25,16 +25,6 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
     }
 
     @Override
-    public String getString(String key) {
-        return this.preferences.get(key, null);
-    }
-
-    @Override
-    public void setString(String key, String value) {
-        this.preferences.put(key, value);
-    }
-
-    @Override
     public LocalDate getDate(String key) {
         var stringValue = getString(key);
 
@@ -49,6 +39,14 @@ class PreferenceRepositoryImpl implements PreferenceRepository {
     public void setDate(String key, LocalDate date) {
         var formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
 
-        this.preferences.put(key, formattedDate);
+        this.setString(key, formattedDate);
+    }
+
+    private String getString(String key) {
+        return this.preferences.get(key, null);
+    }
+
+    private void setString(String key, String value) {
+        this.preferences.put(key, value);
     }
 }
