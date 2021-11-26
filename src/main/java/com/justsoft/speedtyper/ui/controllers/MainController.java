@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controllers;
 
-import com.justsoft.speedtyper.model.entities.TypingSessionResult;
-import com.justsoft.speedtyper.repositories.SessionResultsRepository;
+import com.justsoft.speedtyper.model.entities.TypingResult;
+import com.justsoft.speedtyper.repositories.TypingResultsRepository;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.typing.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
@@ -40,11 +40,11 @@ public class MainController {
     private Hyperlink resultsHyperlink;
 
     private Preferences preferences;
-    private final SessionResultsRepository resultsService = SessionResultsRepository.getPreferredInstance();
+    private final TypingResultsRepository resultsService = TypingResultsRepository.getInstance();
 
     @FXML
     private void initialize() {
-        preferences = Preferences.userRoot().node("com/justsoft/speedtyper/preferences");
+        this.preferences = Preferences.userRoot().node("com/justsoft/speedtyper/preferences");
 
         initContextMenu();
 
@@ -61,23 +61,23 @@ public class MainController {
         resultItem.setMnemonicParsing(true);
         resultItem.setOnAction(e -> showResultsDialog());
 
-        mainContextMenu.getItems().addAll(preferencesItem, resultItem);
-        root.setOnContextMenuRequested(event -> mainContextMenu.show(root, event.getScreenX(), event.getScreenY()));
+        this.mainContextMenu.getItems().addAll(preferencesItem, resultItem);
+        this.root.setOnContextMenuRequested(event -> this.mainContextMenu.show(this.root, event.getScreenX(), event.getScreenY()));
     }
 
     private void setupTimer() {
-        countdownTimer.setOnFinished((interrupted) -> {
+        this.countdownTimer.setOnFinished((interrupted) -> {
             if (!interrupted) {
-                int sessionTime = preferences.getInt(TIMER_LENGTH_KEY, DEFAULT_TIMER_LENGTH);
+                int sessionTime = this.preferences.getInt(TIMER_LENGTH_KEY, this.DEFAULT_TIMER_LENGTH);
 
-                var result = typingControl.getSessionResult(sessionTime);
+                var result = this.typingControl.getSessionResult(sessionTime);
 
-                result = resultsService.save(result);
+                result = this.resultsService.save(result);
                 showResult(result);
             }
 
-            restartButton.setVisible(false);
-            typingControl.reset();
+            this.restartButton.setVisible(false);
+            this.typingControl.reset();
         });
     }
 
@@ -86,27 +86,27 @@ public class MainController {
             return;
         }
 
-        if (!countdownTimer.isRunning()) {
-            countdownTimer.start();
-            restartButton.setVisible(true);
+        if (!this.countdownTimer.isRunning()) {
+            this.countdownTimer.start();
+            this.restartButton.setVisible(true);
         }
 
         if (!event.getText().isBlank() && !event.isAltDown() && !event.isControlDown()) {
             char ch = event.getText().charAt(0);
-            typingControl.handleCharacter(event.isShiftDown() ? Character.toUpperCase(ch) : ch);
+            this.typingControl.handleCharacter(event.isShiftDown() ? Character.toUpperCase(ch) : ch);
         }
 
         if (event.getCode() == KeyCode.SPACE) {
-            typingControl.handleSpace();
+            this.typingControl.handleSpace();
         }
 
         if (event.getCode() == KeyCode.BACK_SPACE) {
-            typingControl.handleBackspace();
+            this.typingControl.handleBackspace();
         }
         event.consume();
     }
 
-    private void showResult(TypingSessionResult result) {
+    private void showResult(TypingResult result) {
         try {
             Dialog<Void> resultDialog = new DialogBuilder<Void>()
                     .withTitle("Result")
@@ -132,14 +132,14 @@ public class MainController {
         });
     }
 
-    private Bundle createResultDialogParams(TypingSessionResult result) {
+    private Bundle createResultDialogParams(TypingResult result) {
         Bundle params = new Bundle();
         params.set("result_id", result.id());
         return params;
     }
 
     public void preferencesHyperlinkClick() {
-        preferencesHyperlink.setVisited(false);
+        this.preferencesHyperlink.setVisited(false);
 
         showPreferencesDialog();
     }
@@ -159,7 +159,7 @@ public class MainController {
     }
 
     public void resultsHyperlinkClick() {
-        resultsHyperlink.setVisited(false);
+        this.resultsHyperlink.setVisited(false);
 
         showResultsDialog();
     }
@@ -177,12 +177,12 @@ public class MainController {
     }
 
     private void updateTimer() {
-        countdownTimer.setTimerLength(preferences.getInt(TIMER_LENGTH_KEY, DEFAULT_TIMER_LENGTH));
+        this.countdownTimer.setTimerLength(this.preferences.getInt(TIMER_LENGTH_KEY, this.DEFAULT_TIMER_LENGTH));
     }
 
     public void restartButtonClick() {
-        restartButton.setVisible(false);
-        countdownTimer.cancel();
-        typingControl.reset();
+        this.restartButton.setVisible(false);
+        this.countdownTimer.cancel();
+        this.typingControl.reset();
     }
 }

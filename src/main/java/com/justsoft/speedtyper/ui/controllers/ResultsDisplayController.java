@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controllers;
 
-import com.justsoft.speedtyper.model.entities.TypingSessionResult;
-import com.justsoft.speedtyper.repositories.SessionResultsRepository;
+import com.justsoft.speedtyper.model.entities.TypingResult;
+import com.justsoft.speedtyper.repositories.TypingResultsRepository;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -32,53 +32,53 @@ public class ResultsDisplayController {
     private LineChart<String, Integer> cpmChart;
 
     private final ViewModel viewModel = new ViewModel();
-    private final SessionResultsRepository resultsRepository = SessionResultsRepository.getPreferredInstance();
+    private final TypingResultsRepository resultsRepository = TypingResultsRepository.getInstance();
 
     @FXML
     public void initialize() {
-        dateSincePicker.valueProperty().bindBidirectional(viewModel.dateSinceProperty);
-        dateUpToPicker.valueProperty().bindBidirectional(viewModel.dateUpToProperty);
+        this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateSinceProperty);
+        this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateUpToProperty);
 
-        viewModel.statsList.addAll(processEntries(resultsRepository.getAll()));
+        this.viewModel.statsList.addAll(processEntries(this.resultsRepository.getAll()));
 
-        addChart("Median", viewModel.medianChartDataProperty);
-        addChart("Average", viewModel.averageChartDataProperty);
-        addChart("Max", viewModel.maxChartDataProperty);
+        addChart("Median", this.viewModel.medianChartDataProperty);
+        addChart("Average", this.viewModel.averageChartDataProperty);
+        addChart("Max", this.viewModel.maxChartDataProperty);
     }
 
     private void addChart(String name, ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> dataProperty) {
-        final var chartCount = cpmChart.getData().size();
+        var chartCount = this.cpmChart.getData().size();
 
-        cpmChart.getData().add(new XYChart.Series<>(name, FXCollections.emptyObservableList()));
-        cpmChart.getData().get(chartCount).dataProperty().bind(dataProperty);
+        this.cpmChart.getData().add(new XYChart.Series<>(name, FXCollections.emptyObservableList()));
+        this.cpmChart.getData().get(chartCount).dataProperty().bind(dataProperty);
     }
 
-    private List<DailyStat> processEntries(List<TypingSessionResult> source) {
+    private List<DailyStat> processEntries(List<TypingResult> source) {
         return source.stream()
-                     .collect(Collectors.groupingBy(TypingSessionResult::sessionDate))
+                     .collect(Collectors.groupingBy(TypingResult::sessionDate))
                      .entrySet()
                      .stream()
                      .map(this::mapToDataPoint)
                      .collect(Collectors.toList());
     }
 
-    private DailyStat mapToDataPoint(Map.Entry<LocalDate, List<TypingSessionResult>> entry) {
-        final var date = entry.getKey();
-        final var dataList = entry.getValue();
+    private DailyStat mapToDataPoint(Map.Entry<LocalDate, List<TypingResult>> entry) {
+        var date = entry.getKey();
+        var dataList = entry.getValue();
 
         return new DailyStat(date, calculateMedian(dataList), calculateAverage(dataList), calculateMax(dataList));
     }
 
-    private int calculateMedian(List<TypingSessionResult> resultList) {
-        return (int) Stats.calculateMedian(resultList, TypingSessionResult::getCharsPerMinute);
+    private int calculateMedian(List<TypingResult> resultList) {
+        return (int) Stats.calculateMedian(resultList, TypingResult::getCharsPerMinute);
     }
 
-    private int calculateAverage(List<TypingSessionResult> resultList) {
-        return (int) resultList.stream().mapToDouble(TypingSessionResult::getCharsPerMinute).average().orElse(0);
+    private int calculateAverage(List<TypingResult> resultList) {
+        return (int) resultList.stream().mapToDouble(TypingResult::getCharsPerMinute).average().orElse(0);
     }
 
-    private int calculateMax(List<TypingSessionResult> resultList) {
-        return (int) resultList.stream().mapToDouble(TypingSessionResult::getCharsPerMinute).max().orElse(0);
+    private int calculateMax(List<TypingResult> resultList) {
+        return (int) resultList.stream().mapToDouble(TypingResult::getCharsPerMinute).max().orElse(0);
     }
 
     private static class ViewModel {
@@ -97,16 +97,16 @@ public class ResultsDisplayController {
 
         private ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> createChartDataBinding(Function<DailyStat, Integer> valueSelector) {
             return Bindings.createObjectBinding(() -> {
-                final LocalDate dateSince = dateSinceProperty.get();
-                final LocalDate dateUpTo = dateUpToProperty.get();
+                LocalDate dateSince = this.dateSinceProperty.get();
+                LocalDate dateUpTo = this.dateUpToProperty.get();
 
                 return FXCollections.observableArrayList(
-                        statsList.stream()
-                                 .filter(data -> isBetweenIncludingEnd(data.resultDate(), dateSince, dateUpTo))
-                                 .map(item -> new XYChart.Data<>(item.resultDate().toString(), valueSelector.apply(item)))
-                                 .collect(Collectors.toList())
+                        this.statsList.stream()
+                                      .filter(data -> isBetweenIncludingEnd(data.resultDate(), dateSince, dateUpTo))
+                                      .map(item -> new XYChart.Data<>(item.resultDate().toString(), valueSelector.apply(item)))
+                                      .collect(Collectors.toList())
                 );
-            }, dateSinceProperty, dateUpToProperty, statsList);
+            }, this.dateSinceProperty, this.dateUpToProperty, this.statsList);
         }
     }
 

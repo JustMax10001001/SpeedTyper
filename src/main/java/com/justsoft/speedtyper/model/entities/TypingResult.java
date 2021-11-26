@@ -2,7 +2,7 @@ package com.justsoft.speedtyper.model.entities;
 
 import java.time.LocalDate;
 
-public record TypingSessionResult(
+public record TypingResult(
         int id,
         int totalChars,
         int totalWords,
@@ -10,7 +10,7 @@ public record TypingSessionResult(
         LocalDate sessionDate,
         int sessionTimeSeconds
 ) implements BaseEntityRecord {
-    public TypingSessionResult(
+    public TypingResult(
             int totalChars,
             int totalWords,
             int mistakenWords,
@@ -20,15 +20,15 @@ public record TypingSessionResult(
         this(0, totalChars, totalWords, mistakenWords, sessionDate, sessionTimeSeconds);
     }
 
-    public TypingSessionResult withId(int id) {
-        return new TypingSessionResult(id, totalChars, totalWords, mistakenWords, sessionDate, sessionTimeSeconds);
+    public TypingResult withId(int id) {
+        return new TypingResult(id, this.totalChars, this.totalWords, this.mistakenWords, this.sessionDate, this.sessionTimeSeconds);
     }
 
     public double getWordsPerMinute() {
-        return ((double) totalWords) / sessionTimeSeconds * 60d;
+        return ((double) this.totalWords) / this.sessionTimeSeconds * 60d;
     }
 
     public double getCharsPerMinute() {
-        return ((double) totalChars) / sessionTimeSeconds * 60d;
+        return ((double) this.totalChars) / this.sessionTimeSeconds * 60d;
     }
 }

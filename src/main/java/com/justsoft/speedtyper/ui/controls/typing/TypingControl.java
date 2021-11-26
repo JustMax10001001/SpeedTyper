@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controls.typing;
 
 import com.justsoft.speedtyper.Dictionary;
-import com.justsoft.speedtyper.model.entities.TypingSessionResult;
+import com.justsoft.speedtyper.model.entities.TypingResult;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.util.Resources;
 import javafx.application.Platform;
@@ -56,38 +56,38 @@ public class TypingControl extends HBox {
     }
 
     private boolean isInputPartiallyCorrect() {
-        return activeWord.indexOf(inputBuffer) == 0;
+        return this.activeWord.indexOf(this.inputBuffer) == 0;
     }
 
     private void updateTextBoxes() {
         if (isInputPartiallyCorrect()) {
-            inputTextBox.updateActiveWord(inputBuffer, true);
+            this.inputTextBox.updateActiveWord(this.inputBuffer, true);
 
-            outputTextBox.updateActiveWord(inputBuffer.isEmpty() ? activeWord : activeWord.substring(inputBuffer.length()));
+            this.outputTextBox.updateActiveWord(this.inputBuffer.isEmpty() ? this.activeWord : this.activeWord.substring(this.inputBuffer.length()));
         } else {
-            inputTextBox.updateActiveWord(inputBuffer, false);
+            this.inputTextBox.updateActiveWord(this.inputBuffer, false);
         }
     }
 
     private void flushAndPrepareTextBoxes() {
-        if (isInputPartiallyCorrect() && activeWord.equals(inputBuffer)) {
-            correctWordCount.set(correctWordCount.get() + 1);
-            characterCount.set(activeWord.length() + characterCount.get());
+        if (isInputPartiallyCorrect() && this.activeWord.equals(this.inputBuffer)) {
+            this.correctWordCount.set(this.correctWordCount.get() + 1);
+            this.characterCount.set(this.activeWord.length() + this.characterCount.get());
         } else {
-            mistakesCount.set(mistakesCount.get() + 1);
+            this.mistakesCount.set(this.mistakesCount.get() + 1);
         }
 
-        inputTextBox.flushActiveWord();
-        outputTextBox.flushActiveWord();
+        this.inputTextBox.flushActiveWord();
+        this.outputTextBox.flushActiveWord();
 
-        inputTextBox.startNextWord();
-        outputTextBox.startNextWord();
+        this.inputTextBox.startNextWord();
+        this.outputTextBox.startNextWord();
     }
 
     private void prepareForNextWord() {
-        inputBuffer = "";
-        activeWord = wordBuffer.pollFirst();
-        currentWord.set(activeWord);
+        this.inputBuffer = "";
+        this.activeWord = this.wordBuffer.pollFirst();
+        this.currentWord.set(this.activeWord);
 
         appendRandomWordToBuffer();
     }
@@ -95,24 +95,24 @@ public class TypingControl extends HBox {
     // --- key handlers ---
 
     public void handleBackspace() {
-        if (inputBuffer.length() == 0)
+        if (this.inputBuffer.length() == 0)
             return;
 
-        inputBuffer = inputBuffer.substring(0, inputBuffer.length() - 1);
+        this.inputBuffer = this.inputBuffer.substring(0, this.inputBuffer.length() - 1);
         updateTextBoxes();
     }
 
     public void handleCharacter(char inputChar) {
-        inputBuffer += inputChar;
+        this.inputBuffer += inputChar;
 
         updateTextBoxes();
     }
 
     public void handleSpace() {
-        if (inputBuffer.isEmpty())
+        if (this.inputBuffer.isEmpty())
             return;
 
-        inputTextBox.updateActiveWord(inputBuffer, inputBuffer.equals(activeWord));
+        this.inputTextBox.updateActiveWord(this.inputBuffer, this.inputBuffer.equals(this.activeWord));
 
         flushAndPrepareTextBoxes();
         prepareForNextWord();
@@ -121,32 +121,32 @@ public class TypingControl extends HBox {
     // --- handlers ---
 
     public void reset() {
-        inputTextBox.reset();
-        outputTextBox.reset();
+        this.inputTextBox.reset();
+        this.outputTextBox.reset();
 
-        wordBuffer.clear();
+        this.wordBuffer.clear();
 
-        characterCount.set(0);
-        correctWordCount.set(0);
-        mistakesCount.set(0);
-        currentWord.set("");
+        this.characterCount.set(0);
+        this.correctWordCount.set(0);
+        this.mistakesCount.set(0);
+        this.currentWord.set("");
 
         postInitialize();
     }
 
-    public TypingSessionResult getSessionResult(int sessionTime) {
-        return new TypingSessionResult(
-                characterCount.get(),
-                correctWordCount.get(),
-                mistakesCount.get(),
+    public TypingResult getSessionResult(int sessionTime) {
+        return new TypingResult(
+                this.characterCount.get(),
+                this.correctWordCount.get(),
+                this.mistakesCount.get(),
                 LocalDate.now(),
                 sessionTime);
     }
 
     private void appendRandomWordToBuffer() {
-        String word = dictionary.getRandomDictionaryWord();
-        outputTextBox.addBufferedWord(word);
-        wordBuffer.add(word);
+        String word = this.dictionary.getRandomDictionaryWord();
+        this.outputTextBox.addBufferedWord(word);
+        this.wordBuffer.add(word);
     }
 
     private void populateDictionary() {
@@ -160,7 +160,7 @@ public class TypingControl extends HBox {
 
             ExceptionAlert.show(dictionaryPopulateTask.getException(), "Could not load dictionary");
         });
-        final Thread populateThread = new Thread(dictionaryPopulateTask);
+        Thread populateThread = new Thread(dictionaryPopulateTask);
         populateThread.setDaemon(false);
         populateThread.start();
     }
@@ -173,8 +173,8 @@ public class TypingControl extends HBox {
         fillWordBuffer();
         prepareForNextWord();
 
-        inputTextBox.startNextWord();
-        outputTextBox.startNextWord();
+        this.inputTextBox.startNextWord();
+        this.outputTextBox.startNextWord();
     }
 
     private Task<Dictionary> createPopulateDictionaryTask() {
