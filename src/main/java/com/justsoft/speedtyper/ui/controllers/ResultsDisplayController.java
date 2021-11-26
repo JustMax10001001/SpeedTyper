@@ -2,6 +2,7 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
 import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
+import com.justsoft.speedtyper.services.prefs.PreferenceService;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
 
 public class ResultsDisplayController {
 
-    private static final int MEDIAN_CHART_INDEX = 0;
+    private final ViewModel viewModel = new ViewModel();
+    private final TypingResultsRepository resultsRepository;
+    private final PreferenceService preferences;
 
     @FXML
     private DatePicker dateSincePicker;
@@ -31,11 +34,19 @@ public class ResultsDisplayController {
     @FXML
     private LineChart<String, Integer> cpmChart;
 
-    private final ViewModel viewModel = new ViewModel();
-    private final TypingResultsRepository resultsRepository = TypingResultsRepository.getInstance();
+    public ResultsDisplayController() {
+        this.resultsRepository = TypingResultsRepository.getInstance();
+        this.preferences = PreferenceService.getInstance();
+    }
 
     @FXML
     public void initialize() {
+        this.dateSincePicker.valueProperty().addListener((v, o, notBefore) -> this.preferences.setResultsNotBeforeTime(notBefore));
+        this.dateUpToPicker.valueProperty().addListener((v, o, notAfter) -> this.preferences.setResultsNotAfterTime(notAfter));
+
+        this.viewModel.setDateSinceProperty(this.preferences.resultsNotBeforeTime());
+        this.viewModel.setDateUpToProperty(this.preferences.resultsNotAfterTime());
+
         this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateSinceProperty);
         this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateUpToProperty);
 
@@ -83,14 +94,22 @@ public class ResultsDisplayController {
     }
 
     private static class ViewModel {
-        private final ObjectProperty<LocalDate> dateSinceProperty = new SimpleObjectProperty<>(LocalDate.now().minusDays(7));
-        private final ObjectProperty<LocalDate> dateUpToProperty = new SimpleObjectProperty<>(LocalDate.now());
+        private final ObjectProperty<LocalDate> dateSinceProperty = new SimpleObjectProperty<>();
+        private final ObjectProperty<LocalDate> dateUpToProperty = new SimpleObjectProperty<>();
 
         private final ObservableList<DailyStat> statsList = FXCollections.observableArrayList();
 
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> medianChartDataProperty = createChartDataBinding(DailyStat::medianCpm);
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> averageChartDataProperty = createChartDataBinding(DailyStat::averageCpm);
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> maxChartDataProperty = createChartDataBinding(DailyStat::maxCpm);
+
+        public void setDateSinceProperty(LocalDate dateSinceProperty) {
+            this.dateSinceProperty.set(dateSinceProperty);
+        }
+
+        public void setDateUpToProperty(LocalDate dateUpToProperty) {
+            this.dateUpToProperty.set(dateUpToProperty);
+        }
 
         private boolean isBetweenIncludingEnd(LocalDate toCheck, LocalDate notBefore, LocalDate notAfter) {
             return toCheck.isAfter(notBefore) && (toCheck.isBefore(notAfter) || toCheck.isEqual(notAfter));
