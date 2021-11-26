@@ -1,2 +1,7 @@
 # Project exclude paths
 /out/
+/target
+/results.json
+/dependency-reduced-pom.xml
+/.idea/
+/results_backup.json

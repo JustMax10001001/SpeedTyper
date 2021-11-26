@@ -1,0 +1,20 @@
+.stat-value {
+    -fx-font-weight: bold;
+    -fx-font-size: 24.0;
+}
+
+.stat-value: good {
+    -fx-text-fill: #006600;
+}
+
+.stat-value: normal {
+    -fx-text-fill: #666600;
+}
+
+.stat-value: bad {
+    -fx-text-fill: #660000;
+}
+
+.stat-name {
+    -fx-font-size: 18.0;
+}

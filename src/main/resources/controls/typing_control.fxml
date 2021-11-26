@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.justsoft.speedtyper.ui.controls.typing.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root spacing="8.0" type="javafx.scene.layout.HBox"
+         xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1">
+
+    <InputFlowingTextBox fx:id="inputTextBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" HBox.hgrow="ALWAYS"/>
+    <OutputFlowingTextBox fx:id="outputTextBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" HBox.hgrow="ALWAYS"/>
+</fx:root>

@@ -1,0 +1,34 @@
+.flowing-text {
+    -fx-font-size: 28px;
+    -fx-font-family: Georgia;
+    -fx-padding: 4;
+}
+
+.flowing-text: input {
+    -fx-fill: #006600;
+}
+
+.flowing-text: is-edited {
+}
+
+.flowing-text: error {
+    -fx-strikethrough: true;
+    -fx-fill: #990000;
+}
+
+.preferences-link {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.timer {
+    -fx-font-size: 32px;
+}
+
+.flowing-text-box {
+    -fx-background: transparent;
+}
+
+.typing-control {
+    -fx-background: transparent;
+}
