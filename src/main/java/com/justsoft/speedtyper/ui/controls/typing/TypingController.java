@@ -18,7 +18,7 @@ import java.util.LinkedList;
 
 import static com.justsoft.speedtyper.util.Loops.repeat;
 
-public class TypingControl extends HBox {
+public class TypingController extends HBox {
 
     private static final int BUFFERED_WORDS = 32;
 
@@ -37,7 +37,7 @@ public class TypingControl extends HBox {
     private final ReadOnlyIntegerWrapper characterCount = new ReadOnlyIntegerWrapper(0);
     private final ReadOnlyIntegerWrapper mistakesCount = new ReadOnlyIntegerWrapper(0);
 
-    public TypingControl() {
+    public TypingController() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/controls/typing_control.fxml"));
         loader.setRoot(this);
         loader.setController(this);

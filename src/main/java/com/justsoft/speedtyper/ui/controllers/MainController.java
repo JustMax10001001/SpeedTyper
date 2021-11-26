@@ -4,7 +4,7 @@ import com.justsoft.speedtyper.model.entities.TypingResult;
 import com.justsoft.speedtyper.services.prefs.PreferenceService;
 import com.justsoft.speedtyper.services.results.ResultService;
 import com.justsoft.speedtyper.ui.controls.Timer;
-import com.justsoft.speedtyper.ui.controls.typing.TypingControl;
+import com.justsoft.speedtyper.ui.controls.typing.TypingController;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.ui.dialogs.builders.DialogBuilder;
 import com.justsoft.speedtyper.util.Bundle;
@@ -33,7 +33,7 @@ public class MainController {
     @FXML
     private Timer countdownTimer;
     @FXML
-    private TypingControl typingControl;
+    private TypingController typingControl;
     @FXML
     private Button restartButton;
     @FXML

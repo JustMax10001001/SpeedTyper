@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.justsoft.speedtyper.ui.controls.Timer?>
-<?import com.justsoft.speedtyper.ui.controls.typing.TypingControl?>
+<?import com.justsoft.speedtyper.ui.controls.typing.TypingController?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -63,11 +63,11 @@
                    GridPane.halignment="CENTER"
                    GridPane.rowIndex="1"/>
 
-            <TypingControl fx:id="typingControl"
-                           alignment="CENTER"
-                           GridPane.columnSpan="2"
-                           GridPane.hgrow="ALWAYS"
-                           GridPane.rowIndex="2"/>
+            <TypingController fx:id="typingControl"
+                              alignment="CENTER"
+                              GridPane.columnSpan="2"
+                              GridPane.hgrow="ALWAYS"
+                              GridPane.rowIndex="2"/>
 
             <AnchorPane GridPane.columnSpan="2"
                         GridPane.rowIndex="2">
