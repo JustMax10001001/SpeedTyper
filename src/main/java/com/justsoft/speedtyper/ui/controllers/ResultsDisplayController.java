@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -58,6 +58,7 @@ public class ResultsDisplayController {
                      .collect(Collectors.groupingBy(TypingResult::sessionDate))
                      .entrySet()
                      .stream()
+                     .sorted(Map.Entry.comparingByKey())
                      .map(this::mapToDataPoint)
                      .collect(Collectors.toList());
     }

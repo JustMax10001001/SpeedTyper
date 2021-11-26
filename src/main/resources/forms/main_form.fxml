@@ -103,6 +103,7 @@
                        onAction="#preferencesHyperlinkClick"
                        styleClass="preferences-link"
                        text="Preferences"
+                       focusTraversable="false"
                        GridPane.rowIndex="3"
                        GridPane.valignment="BOTTOM">
                 <padding>
@@ -113,6 +114,7 @@
             <Hyperlink text="Results"
                        fx:id="resultsHyperlink"
                        onAction="#resultsHyperlinkClick"
+                       focusTraversable="false"
                        GridPane.columnIndex="1"
                        GridPane.halignment="RIGHT"
                        GridPane.rowIndex="3"

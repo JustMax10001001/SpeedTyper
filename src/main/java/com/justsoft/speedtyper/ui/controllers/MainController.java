@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
 import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.typing.TypingControl;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
@@ -82,7 +82,7 @@ public class MainController {
     }
 
     public void keyPressed(KeyEvent event) {
-        if ((event.getText().isBlank() || event.isShortcutDown() || event.isAltDown()) && event.getCode() != KeyCode.BACK_SPACE) {
+        if ((event.getText().isBlank() || event.isShortcutDown() || event.isAltDown()) && event.getCode() != KeyCode.BACK_SPACE && event.getCode() != KeyCode.SPACE) {
             return;
         }
 

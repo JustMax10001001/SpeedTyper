@@ -2,7 +2,7 @@ package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.SubjectiveStatQuality;
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
 import com.justsoft.speedtyper.ui.controls.StatControl;
 import com.justsoft.speedtyper.util.Bundle;
 import javafx.beans.binding.Bindings;

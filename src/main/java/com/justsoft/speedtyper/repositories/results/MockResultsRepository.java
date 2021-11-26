@@ -1,4 +1,4 @@
-package com.justsoft.speedtyper.repositories;
+package com.justsoft.speedtyper.repositories.results;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
 

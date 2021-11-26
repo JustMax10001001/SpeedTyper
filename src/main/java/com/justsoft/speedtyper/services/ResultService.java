@@ -1,7 +1,7 @@
 package com.justsoft.speedtyper.services;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.TypingResultsRepository;
+import com.justsoft.speedtyper.repositories.results.TypingResultsRepository;
 
 import java.util.List;
 
