@@ -1,5 +1,6 @@
 package com.justsoft.speedtyper.util;
 
+import com.justsoft.speedtyper.model.Bundle;
 import com.justsoft.speedtyper.ui.controllers.ControllerWithParameters;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,14 +19,14 @@ public class Resources {
     }
 
     public static FXMLLoader createLoaderForForm(String formName) {
-        final URL resourceUrl = getResourceUrl(String.format("/forms/%s.fxml", formName));
+        URL resourceUrl = getResourceUrl(String.format("/forms/%s.fxml", formName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no form called \"%s\"", formName));
         return new FXMLLoader(resourceUrl);
     }
 
     public static FXMLLoader createLoaderForControl(String controlName) {
-        final URL resourceUrl = getResourceUrl(String.format("/controls/%s.fxml", controlName));
+        URL resourceUrl = getResourceUrl(String.format("/controls/%s.fxml", controlName));
         if (resourceUrl == null)
             throw new IllegalArgumentException(String.format("There is no control called \"%s\"", controlName));
         return new FXMLLoader(resourceUrl);
@@ -54,7 +55,7 @@ public class Resources {
     }
 
     public static InputStream getFileResourceAsStream(String resourceName) {
-        final String resource = String.format("/files/%s", resourceName);
+        String resource = String.format("/files/%s", resourceName);
         return getResourceAsStream(resource);
     }
 

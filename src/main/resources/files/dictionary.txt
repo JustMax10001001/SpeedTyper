@@ -1591,7 +1591,6 @@ set
 seven
 several
 severe
-sex
 shadow
 shake
 shall
@@ -1606,7 +1605,6 @@ shift
 shine
 ship
 shirt
-shit
 shock
 shoe
 shoot

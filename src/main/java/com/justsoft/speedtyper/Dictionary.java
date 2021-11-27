@@ -1,14 +1,16 @@
 package com.justsoft.speedtyper;
 
-import java.io.*;
-import java.net.URISyntaxException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Dictionary {
 
     private static final int DICTIONARY_CAPACITY = 3000;
-    private final Object _lck = new Object();
+    private final Object dictionaryLock = new Object();
 
     private final InputStream inputStream;
 
@@ -21,14 +23,14 @@ public class Dictionary {
 
     public String getRandomDictionaryWord() {
         String word;
-        synchronized (_lck) {
+        synchronized (dictionaryLock) {
             word = dictionary.get(random.nextInt(dictionary.size()));
         }
         return word;
     }
 
     public void load() throws IOException {
-        synchronized (_lck) {
+        synchronized (dictionaryLock) {
             random = new Random(System.currentTimeMillis());
             dictionary = new ArrayList<>(DICTIONARY_CAPACITY);
 

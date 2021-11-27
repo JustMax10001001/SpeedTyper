@@ -97,7 +97,7 @@ class ResultsRepositoryImpl implements ResultRepository {
         try (OutputStreamWriter resultStreamWriter = new OutputStreamWriter(new FileOutputStream(this.RESULT_FILE))) {
             this.gson.toJson(this.resultCache.values(), resultStreamWriter);
         } catch (IOException e) {
-            ExceptionAlert.show(e, "Could not save to result file!");
+            ExceptionAlert.show(e, "Could not save result file!");
         }
     }
 

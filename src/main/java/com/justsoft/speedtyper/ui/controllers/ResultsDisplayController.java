@@ -1,8 +1,8 @@
 package com.justsoft.speedtyper.ui.controllers;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.ResultRepository;
 import com.justsoft.speedtyper.services.prefs.PreferenceService;
+import com.justsoft.speedtyper.services.results.ResultService;
 import com.justsoft.speedtyper.util.Stats;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class ResultsDisplayController {
 
     private final ViewModel viewModel = new ViewModel();
-    private final ResultRepository resultRepository;
+    private final ResultService resultRepository;
     private final PreferenceService preferences;
 
     @FXML
@@ -35,7 +35,7 @@ public class ResultsDisplayController {
     private LineChart<String, Integer> cpmChart;
 
     public ResultsDisplayController() {
-        this.resultRepository = ResultRepository.getInstance();
+        this.resultRepository = ResultService.getInstance();
         this.preferences = PreferenceService.getInstance();
     }
 
@@ -50,7 +50,7 @@ public class ResultsDisplayController {
         this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateSinceProperty);
         this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateUpToProperty);
 
-        this.viewModel.statsList.addAll(processEntries(this.resultRepository.getAll()));
+        this.viewModel.statsList.addAll(processEntries(this.resultRepository.getAllResults()));
 
         addChart("Median", this.viewModel.medianChartDataProperty);
         addChart("Average", this.viewModel.averageChartDataProperty);

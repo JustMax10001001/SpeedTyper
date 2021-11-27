@@ -1,4 +1,4 @@
-package com.justsoft.speedtyper.util;
+package com.justsoft.speedtyper.model;
 
 import java.util.HashMap;
 import java.util.Map;

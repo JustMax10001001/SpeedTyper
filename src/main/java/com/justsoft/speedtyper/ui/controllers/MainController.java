@@ -1,5 +1,6 @@
 package com.justsoft.speedtyper.ui.controllers;
 
+import com.justsoft.speedtyper.model.Bundle;
 import com.justsoft.speedtyper.model.entities.TypingResult;
 import com.justsoft.speedtyper.services.prefs.PreferenceService;
 import com.justsoft.speedtyper.services.results.ResultService;
@@ -7,7 +8,6 @@ import com.justsoft.speedtyper.ui.controls.Timer;
 import com.justsoft.speedtyper.ui.controls.typing.TypingController;
 import com.justsoft.speedtyper.ui.dialogs.ExceptionAlert;
 import com.justsoft.speedtyper.ui.dialogs.builders.DialogBuilder;
-import com.justsoft.speedtyper.util.Bundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -153,7 +153,7 @@ public class MainController {
                                      .showAndWait();
 
             updateTimer();
-        } catch (IOException e) {
+        } catch (Exception e) {
             ExceptionAlert.show(e, "Unable to load preferences form");
         }
     }

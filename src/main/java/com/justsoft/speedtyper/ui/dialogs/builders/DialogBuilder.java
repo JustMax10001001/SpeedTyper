@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.ui.dialogs.builders;
 
-import com.justsoft.speedtyper.util.Bundle;
+import com.justsoft.speedtyper.model.Bundle;
 import com.justsoft.speedtyper.util.Resources;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;

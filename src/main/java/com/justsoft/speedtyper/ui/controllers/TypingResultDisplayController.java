@@ -1,10 +1,10 @@
 package com.justsoft.speedtyper.ui.controllers;
 
+import com.justsoft.speedtyper.model.Bundle;
 import com.justsoft.speedtyper.model.SubjectiveStatQuality;
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.ResultRepository;
+import com.justsoft.speedtyper.services.results.ResultService;
 import com.justsoft.speedtyper.ui.controls.StatControl;
-import com.justsoft.speedtyper.util.Bundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleObjectProperty;
@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 public class TypingResultDisplayController extends ControllerWithParameters {
 
     private final ViewModel viewModel = new ViewModel();
-    private final ResultRepository resultRepository = ResultRepository.getInstance();
+    private final ResultService resultRepository = ResultService.getInstance();
 
     @FXML private StatControl<Double> wordsPerMinuteStat;
     @FXML private StatControl<Double> charsPerMinuteStat;
@@ -22,7 +22,7 @@ public class TypingResultDisplayController extends ControllerWithParameters {
     @Override
     void initialize(Bundle parameters) {
         int resultId = parameters.getInt("result_id");
-        TypingResult result = this.resultRepository.getById(resultId);
+        TypingResult result = this.resultRepository.getResultById(resultId);
         if (result == null)
             throw new IllegalArgumentException("There are no results with id = " + resultId + " in repository");
 

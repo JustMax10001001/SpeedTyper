@@ -1,6 +1,6 @@
 package com.justsoft.speedtyper.ui.controllers;
 
-import com.justsoft.speedtyper.util.Bundle;
+import com.justsoft.speedtyper.model.Bundle;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -21,7 +21,7 @@ public abstract class ControllerWithParameters implements Initializable {
         initialize(parameters);
     }
 
-    Bundle getParameters() {
+    protected Bundle getParameters() {
         return parameters;
     }
 }
