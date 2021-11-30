@@ -1,25 +1,21 @@
 package com.justsoft.speedtyper.services.prefs;
 
-import com.justsoft.speedtyper.repositories.prefs.PreferenceRepository;
-
 import java.time.LocalDate;
 
-public interface PreferenceService {
-    int sessionTime();
+public abstract class PreferenceService {
+    public abstract int sessionTime();
 
-    void setSessionTime(int sessionTimeSeconds);
+    public abstract void setSessionTime(int sessionTimeSeconds);
 
-    LocalDate resultsNotBeforeTime();
+    public abstract LocalDate resultsNotBeforeTime();
 
-    void setResultsNotBeforeTime(LocalDate resultsNotBeforeTime);
+    public abstract void setResultsNotBeforeTime(LocalDate resultsNotBeforeTime);
 
-    LocalDate resultsNotAfterTime();
+    public abstract LocalDate resultsNotAfterTime();
 
-    void setResultsNotAfterTime(LocalDate resultsNotAfterTime);
+    public abstract void setResultsNotAfterTime(LocalDate resultsNotAfterTime);
 
-    PreferenceService instance = new PreferenceServiceImpl(PreferenceRepository.getInstance());
-
-    static PreferenceService getInstance() {
-        return instance;
+    public static PreferenceService getInstance() {
+        return PreferenceServiceImpl.getInstance();
     }
 }

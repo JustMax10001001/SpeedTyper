@@ -4,9 +4,24 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.prefs.Preferences;
 
-class PreferenceRepositoryImpl implements PreferenceRepository {
+class PreferenceRepositoryImpl extends PreferenceRepository {
     private static final String preferenceNodePath = PreferenceRepositoryImpl.class.getPackageName().replace("\\.", "/");
     private final Preferences preferences = Preferences.userRoot().node(preferenceNodePath);
+
+    private static volatile PreferenceRepository instance;
+    private static final Object instanceLock = new Object();
+
+    public static PreferenceRepository getInstance() {
+        if (instance == null) {
+            synchronized (instanceLock) {
+                if (instance == null) {
+                    instance = new PreferenceRepositoryImpl();
+                }
+            }
+        }
+
+        return instance;
+    }
 
     @Override
     public Integer getInt(String key) {

@@ -2,19 +2,17 @@ package com.justsoft.speedtyper.repositories.prefs;
 
 import java.time.LocalDate;
 
-public interface PreferenceRepository {
+public abstract class PreferenceRepository {
 
-    Integer getInt(String key);
+    public abstract Integer getInt(String key);
 
-    void setInt(String key, int value);
+    public abstract void setInt(String key, int value);
 
-    LocalDate getDate(String key);
+    public abstract LocalDate getDate(String key);
 
-    void setDate(String key, LocalDate date);
+    public abstract void setDate(String key, LocalDate date);
 
-    PreferenceRepository instance = new PreferenceRepositoryImpl();
-
-    static PreferenceRepository getInstance() {
-        return instance;
+    public static PreferenceRepository getInstance() {
+        return PreferenceRepositoryImpl.getInstance();
     }
 }

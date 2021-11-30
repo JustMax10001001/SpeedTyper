@@ -5,7 +5,7 @@ import com.justsoft.speedtyper.model.entities.TypingResult;
 import java.time.LocalDate;
 import java.util.*;
 
-class MockResultRepository implements ResultRepository {
+class MockResultRepository extends ResultRepository {
     private final Map<Integer, TypingResult> resultMap = Collections.synchronizedMap(new HashMap<>());
 
     public MockResultRepository() {

@@ -4,6 +4,7 @@ import com.justsoft.speedtyper.model.entities.TypingResult;
 import com.justsoft.speedtyper.services.prefs.PreferenceService;
 import com.justsoft.speedtyper.services.results.ResultService;
 import com.justsoft.speedtyper.util.Stats;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
@@ -41,20 +42,50 @@ public class ResultsDisplayController {
 
     @FXML
     public void initialize() {
-        this.dateSincePicker.valueProperty().addListener((v, o, notBefore) -> this.preferences.setResultsNotBeforeTime(notBefore));
-        this.dateUpToPicker.valueProperty().addListener((v, o, notAfter) -> this.preferences.setResultsNotAfterTime(notAfter));
+        this.dateSincePicker.valueProperty().addListener(this::onDateNotBeforeChanged);
+        this.dateUpToPicker.valueProperty().addListener(this::onDateNotAfterChanged);
 
-        this.viewModel.setDateSinceProperty(this.preferences.resultsNotBeforeTime());
-        this.viewModel.setDateUpToProperty(this.preferences.resultsNotAfterTime());
+        this.viewModel.setDateNotBeforeProperty(this.preferences.resultsNotBeforeTime());
+        this.viewModel.setDateNotAfterProperty(this.preferences.resultsNotAfterTime());
 
-        this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateSinceProperty);
-        this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateUpToProperty);
+        this.dateSincePicker.valueProperty().bindBidirectional(this.viewModel.dateNotBeforeProperty);
+        this.dateUpToPicker.valueProperty().bindBidirectional(this.viewModel.dateNotAfterProperty);
 
         this.viewModel.statsList.addAll(processEntries(this.resultRepository.getAllResults()));
 
         addChart("Median", this.viewModel.medianChartDataProperty);
         addChart("Average", this.viewModel.averageChartDataProperty);
         addChart("Max", this.viewModel.maxChartDataProperty);
+    }
+
+    private void onDateNotBeforeChanged(Observable v, LocalDate oldDate, LocalDate newDate) {
+        var dateNotAfter = this.viewModel.dateNotAfterProperty.get();
+
+        if (dateNotAfter == null) {
+            return;
+        }
+
+        if (newDate.isAfter(dateNotAfter)) {
+            this.dateSincePicker.setValue(oldDate);
+            return;
+        }
+
+        this.preferences.setResultsNotBeforeTime(newDate);
+    }
+
+    private void onDateNotAfterChanged(Observable v, LocalDate oldDate, LocalDate newDate) {
+        var dateNotBefore = this.viewModel.dateNotBeforeProperty.get();
+
+        if (dateNotBefore == null) {
+            return;
+        }
+
+        if (newDate.isBefore(dateNotBefore)) {
+            this.dateUpToPicker.setValue(oldDate);
+            return;
+        }
+
+        this.preferences.setResultsNotAfterTime(newDate);
     }
 
     private void addChart(String name, ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> dataProperty) {
@@ -94,8 +125,8 @@ public class ResultsDisplayController {
     }
 
     private static class ViewModel {
-        private final ObjectProperty<LocalDate> dateSinceProperty = new SimpleObjectProperty<>();
-        private final ObjectProperty<LocalDate> dateUpToProperty = new SimpleObjectProperty<>();
+        private final ObjectProperty<LocalDate> dateNotBeforeProperty = new SimpleObjectProperty<>();
+        private final ObjectProperty<LocalDate> dateNotAfterProperty = new SimpleObjectProperty<>();
 
         private final ObservableList<DailyStat> statsList = FXCollections.observableArrayList();
 
@@ -103,30 +134,31 @@ public class ResultsDisplayController {
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> averageChartDataProperty = createChartDataBinding(DailyStat::averageCpm);
         private final ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> maxChartDataProperty = createChartDataBinding(DailyStat::maxCpm);
 
-        public void setDateSinceProperty(LocalDate dateSinceProperty) {
-            this.dateSinceProperty.set(dateSinceProperty);
+        public void setDateNotBeforeProperty(LocalDate dateNotBeforeProperty) {
+            this.dateNotBeforeProperty.set(dateNotBeforeProperty);
         }
 
-        public void setDateUpToProperty(LocalDate dateUpToProperty) {
-            this.dateUpToProperty.set(dateUpToProperty);
+        public void setDateNotAfterProperty(LocalDate dateNotAfterProperty) {
+            this.dateNotAfterProperty.set(dateNotAfterProperty);
         }
 
-        private boolean isBetweenIncludingEnd(LocalDate toCheck, LocalDate notBefore, LocalDate notAfter) {
-            return toCheck.isAfter(notBefore) && (toCheck.isBefore(notAfter) || toCheck.isEqual(notAfter));
+        private boolean isBetween(LocalDate toCheck, LocalDate notBefore, LocalDate notAfter) {
+            return toCheck.isEqual(notBefore) || toCheck.isEqual(notAfter)
+                    || toCheck.isAfter(notBefore) && toCheck.isBefore(notAfter);
         }
 
         private ObjectBinding<ObservableList<XYChart.Data<String, Integer>>> createChartDataBinding(Function<DailyStat, Integer> valueSelector) {
             return Bindings.createObjectBinding(() -> {
-                LocalDate dateSince = this.dateSinceProperty.get();
-                LocalDate dateUpTo = this.dateUpToProperty.get();
+                LocalDate dateSince = this.dateNotBeforeProperty.get();
+                LocalDate dateUpTo = this.dateNotAfterProperty.get();
 
                 return FXCollections.observableArrayList(
                         this.statsList.stream()
-                                      .filter(data -> isBetweenIncludingEnd(data.resultDate(), dateSince, dateUpTo))
+                                      .filter(data -> isBetween(data.resultDate(), dateSince, dateUpTo))
                                       .map(item -> new XYChart.Data<>(item.resultDate().toString(), valueSelector.apply(item)))
                                       .collect(Collectors.toList())
                 );
-            }, this.dateSinceProperty, this.dateUpToProperty, this.statsList);
+            }, this.dateNotBeforeProperty, this.dateNotAfterProperty, this.statsList);
         }
     }
 

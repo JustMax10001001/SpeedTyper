@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import static com.justsoft.speedtyper.util.Objects.notNull;
 
-class PreferenceServiceImpl implements PreferenceService {
+class PreferenceServiceImpl extends PreferenceService {
     private static final String SESSION_TIME_KEY = "session_time";
     private static final String RESULT_NOT_BEFORE_KEY = "result_not_before";
     private static final String RESULT_NOT_AFTER_KEY = "result_not_after";
@@ -16,7 +16,22 @@ class PreferenceServiceImpl implements PreferenceService {
 
     private final PreferenceRepository preferenceRepository;
 
-    public PreferenceServiceImpl(PreferenceRepository preferenceRepository) {
+    private static volatile PreferenceServiceImpl instance;
+    private static final Object instanceLock = new Object();
+
+    public static PreferenceService getInstance() {
+        if (instance == null) {
+            synchronized (instanceLock) {
+                if (instance == null) {
+                    instance = new PreferenceServiceImpl(PreferenceRepository.getInstance());
+                }
+            }
+        }
+
+        return instance;
+    }
+
+    private PreferenceServiceImpl(PreferenceRepository preferenceRepository) {
         this.preferenceRepository = preferenceRepository;
     }
 

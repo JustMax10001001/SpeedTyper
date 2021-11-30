@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 import static com.justsoft.speedtyper.util.Objects.notNull;
 
-class ResultsRepositoryImpl implements ResultRepository {
+class ResultsRepositoryImpl extends ResultRepository {
     private final String RESULT_FILE = "results.json";
 
     private final Gson gson;
@@ -28,7 +28,22 @@ class ResultsRepositoryImpl implements ResultRepository {
     private final Object cacheAccessMutex = new Object();
     private final ExecutorService backgroundIoExecutor = Executors.newSingleThreadExecutor(new DaemonThreadFactory());
 
-    public ResultsRepositoryImpl() {
+    private static volatile ResultRepository instance;
+    private static final Object instanceLock = new Object();
+
+    public static ResultRepository getInstance() {
+        if (instance == null) {
+            synchronized (instanceLock) {
+                if (instance == null) {
+                    instance = new ResultsRepositoryImpl();
+                }
+            }
+        }
+
+        return instance;
+    }
+
+    private ResultsRepositoryImpl() {
         this.gson = createGson();
 
         submitIo(this::prepareResultCache);

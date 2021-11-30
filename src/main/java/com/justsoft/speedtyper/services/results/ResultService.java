@@ -1,21 +1,18 @@
 package com.justsoft.speedtyper.services.results;
 
 import com.justsoft.speedtyper.model.entities.TypingResult;
-import com.justsoft.speedtyper.repositories.results.ResultRepository;
 
 import java.util.List;
 
-public interface ResultService {
+public abstract class ResultService {
 
-    List<TypingResult> getAllResults();
+    public abstract List<TypingResult> getAllResults();
 
-    TypingResult saveResult(TypingResult result);
+    public abstract TypingResult saveResult(TypingResult result);
 
-    TypingResult getResultById(int id);
+    public abstract TypingResult getResultById(int id);
 
-    ResultService instance = new ResultServiceImpl(ResultRepository.getInstance());
-
-    static ResultService getInstance() {
-        return instance;
+    public static ResultService getInstance() {
+        return ResultServiceImpl.getInstance();
     }
 }

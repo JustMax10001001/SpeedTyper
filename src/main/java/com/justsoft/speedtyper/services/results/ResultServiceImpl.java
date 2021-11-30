@@ -7,12 +7,27 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
-class ResultServiceImpl implements ResultService {
+class ResultServiceImpl extends ResultService {
     private final Random idGenerator = new SecureRandom();
 
     private final ResultRepository resultRepository;
 
-    public ResultServiceImpl(ResultRepository resultRepository) {
+    private static volatile ResultService instance;
+    private static final Object instanceLock = new Object();
+
+    public static ResultService getInstance() {
+        if (instance == null) {
+            synchronized (instanceLock) {
+                if (instance == null) {
+                    instance = new ResultServiceImpl(ResultRepository.getInstance());
+                }
+            }
+        }
+
+        return instance;
+    }
+
+    private ResultServiceImpl(ResultRepository resultRepository) {
         this.resultRepository = resultRepository;
     }
 
